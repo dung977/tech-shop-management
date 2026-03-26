@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Đăng ký tài khoản";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body style="background-color: #f4f6f9;">
+
+    <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="card shadow-sm" style="width: 400px; background-color: #d9d9d9; border: none; border-radius: 0;">
+            
+            <div class="card-header border-0 d-flex justify-content-center align-items-center" style="background-color: #1b45cf; height: 60px; border-radius: 0;">
+                <h3 class="text-white mb-0" style="font-weight: 600;">ĐĂNG KÝ TÀI KHOẢN</h3>
+            </div>
+            
+            <div class="card-body p-4">
+                <form asp-controller="Login" asp-action="Register" method="POST">
+                    
+                    <div class="mb-4 mt-2">
+                        <input type="text" name="username" class="form-control rounded-0 border-0 py-2" placeholder="Tên đăng nhập" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <input type="password" name="password" class="form-control rounded-0 border-0 py-2" placeholder="Mật khẩu" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <input type="password" name="confirmPassword" class="form-control rounded-0 border-0 py-2" placeholder="Xác nhận mật khẩu" required>
+                    </div>
+                    
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn text-white rounded-0 py-2" style="background-color: #1b45cf; font-weight: 500;">
+                            Tạo tài khoản
+                        </button>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <span class="text-muted">Đã có tài khoản?</span>
+                        <a href="/Login" style="color: #1b45cf; text-decoration: none; font-weight: 500;">Đăng nhập ngay</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

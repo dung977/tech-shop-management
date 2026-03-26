@@ -1,0 +1,48 @@
+﻿<div id="layoutSidenav_nav">
+    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion" style="background-color: #1b45cf;">
+        <div class="sb-sidenav-menu">
+            <div class="nav">
+                
+                <div class="sb-sidenav-menu-heading" style="color: rgba(255,255,255,0.6);">HỆ THỐNG</div>
+                <a class="nav-link text-white" href="#">
+                    <div class="sb-nav-link-icon text-white"><i class="fas fa-tachometer-alt"></i></div>
+                    Bảng điều khiển
+                </a>
+
+                <div class="sb-sidenav-menu-heading" style="color: rgba(255,255,255,0.6);">CỬA HÀNG</div>
+                <a class="nav-link text-white" asp-controller="Bill" asp-action="Index">
+                    <div class="sb-nav-link-icon text-white"><i class="fas fa-shopping-cart"></i></div>
+                    Đơn bán hàng
+                </a>
+                <a class="nav-link text-white" asp-controller="PurchaseOrder" asp-action="Index">
+                    <div class="sb-nav-link-icon text-white"><i class="fas fa-truck-loading"></i></div>
+                    Phiếu nhập kho
+                </a>
+
+                <div class="sb-sidenav-menu-heading" style="color: rgba(255,255,255,0.6);">HÀNG HÓA</div>
+                <a class="nav-link text-white" asp-controller="Product" asp-action="Index">
+                    <div class="sb-nav-link-icon text-white"><i class="fas fa-laptop-code"></i></div>
+                    Sản phẩm
+                </a>
+                <a class="nav-link text-white" asp-controller="Category" asp-action="Index">
+                    <div class="sb-nav-link-icon text-white"><i class="fas fa-tags"></i></div>
+                    Danh mục
+                </a>
+
+                <div class="sb-sidenav-menu-heading" style="color: rgba(255,255,255,0.6);">NHÂN SỰ & ĐỐI TÁC</div>
+                <a class="nav-link text-white" asp-controller="Employee" asp-action="Index">
+                    <div class="sb-nav-link-icon text-white"><i class="fas fa-user-tie"></i></div>
+                    Nhân viên
+                </a>
+                <a class="nav-link text-white" asp-controller="Customer" asp-action="Index">
+                    <div class="sb-nav-link-icon text-white"><i class="fas fa-user-friends"></i></div>
+                    Khách hàng
+                </a>
+            </div>
+        </div>
+        <div class="sb-sidenav-footer" style="background-color: rgba(0,0,0,0.1);">
+            <div class="small text-white-50">Đăng nhập:</div>
+            <span class="text-white">Admin Cell Tech</span>
+        </div>
+    </nav>
+</div>
