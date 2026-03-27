@@ -17,7 +17,6 @@ def get_all_product():
     except Exception as e:
         return flask.jsonify({"error": str(e)}), 500
 
-
 @product_bp.route('/<ID>', methods=['GET'])
 def get_product_by_id(ID):
     cursor = conn.cursor()
@@ -53,10 +52,10 @@ def add_product():
             return flask.jsonify({"message": "Product name already exist!"}), 400
         query = """
                 INSERT INTO Product(ProductID, ProductName, Brand, 
-                Image, Description, Information, Status, CategoryID) 
-                VALUES(?, ?, ?, ?, ?, ?, ?, ?)
+                Image, Information, Status, CategoryID) 
+                VALUES(?, ?, ?, ?, ?, ?, ?)
                 """
-        cursor.execute(query, (ProductID, ProductName, Brand, Image, Description, Information, Status, CategoryID))
+        cursor.execute(query, (ProductID, ProductName, Brand, Image, Information, Status, CategoryID))
         conn.commit()
         
         return flask.jsonify({"message": "Success!"}), 201
@@ -75,11 +74,11 @@ def update_product(ID):
         Information = flask.request.json.get("Information")
         Status = flask.request.json.get("Status")
         query = """
-                UPDATE Product SET ProductName = ?, Brand = ?,Image = ?,
-                Description = ?, Information = ?, Status = ?
+                UPDATE Product SET ProductName = ?, Brand = ?, Image = ?,
+                Information = ?, Status = ?
                 WHERE ProductID = ?
                 """
-        cursor.execute(query, (ProductName, Brand, Image, Description, Information, Status, ID))
+        cursor.execute(query, (ProductName, Brand, Image, Information, Status, ID))
         conn.commit()
         
         return flask.jsonify({"message": "Success!"}), 200
@@ -98,6 +97,7 @@ def delete_product(ID):
         return flask.jsonify({"message": "Success!"}), 200
     except Exception as e:
         return flask.jsonify({"error": str(e)}), 500
+    
 @product_bp.route('/<ID>/variants', methods=['GET'])
 def get_product_variant(ID):
     cursor = conn.cursor()

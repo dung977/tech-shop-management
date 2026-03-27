@@ -40,15 +40,16 @@ def add_variant():
         Color = flask.request.json.get("Color")
         StockQuantity = flask.request.json.get("StockQuantity")
         SellingPrice = flask.request.json.get("SellingPrice")
+        Description = flask.request.json.get("SellingPrice")
         cursor.execute("SELECT ProductVariantID FROM ProductVariant WHERE ProductID = ?", (ProductVariantID,))
         if cursor.fetchone():
             return flask.jsonify({"message": "ProductVariantID already exist!"}), 400
         query = """
                 INSERT INTO ProductVariant(ProductVariantID, ProductID, Color, Capacity,  
-                SellingPrice, StockQuantity) 
-                VALUES(?, ?, ?, ?, ?, ?)
+                SellingPrice, StockQuantity, Description) 
+                VALUES(?, ?, ?, ?, ?, ?, ?)
                 """
-        cursor.execute(query, (ProductVariantID, ProductID, Color, Capacity, SellingPrice, StockQuantity))
+        cursor.execute(query, (ProductVariantID, ProductID, Color, Capacity, SellingPrice, StockQuantity, Description))
         conn.commit()
         
         return flask.jsonify({"message": "Success!"}), 201
@@ -64,12 +65,13 @@ def update_variant(ID):
         Color = flask.request.json.get("Color")
         StockQuantity = flask.request.json.get("StockQuantity")
         SellingPrice = flask.request.json.get("SellingPrice")
+        Description = flask.request.json.get("Description")
         query = """
                 UPDATE Productvariant SET Color = ?, Capacity = ?,
-                SellingPrice = ?, StockQuantity = ?
+                SellingPrice = ?, StockQuantity = ?, Description = ?
                 WHERE ProductVariantID = ?
                 """
-        cursor.execute(query, (Color, Capacity, SellingPrice, StockQuantity, ID))
+        cursor.execute(query, (Color, Capacity, SellingPrice, StockQuantity, Description, ID))
         conn.commit()
         
         return flask.jsonify({"message": "Success!"}), 200
