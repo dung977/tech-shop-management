@@ -1,0 +1,39 @@
+﻿<div class="modal fade" id="editCustomerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #0a2551; color: white;">
+                <h5 class="modal-title"><i class="fas fa-user-edit me-2"></i>Cập Nhật Khách Hàng</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditCustomer">
+                    <input type="hidden" id="editCustomerId">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Họ và Tên</label>
+                            <input type="text" class="form-control" id="editCusFullName" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Số điện thoại</label>
+                            <input type="text" class="form-control" id="editCusPhone" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Email</label>
+                            <input type="email" class="form-control" id="editCusEmail">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Địa chỉ</label>
+                            <input type="text" class="form-control" id="editCusAddress">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn text-white" style="background-color: #0a2551;" onclick="submitEditCustomer()">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+</div>

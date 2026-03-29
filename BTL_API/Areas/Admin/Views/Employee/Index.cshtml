@@ -13,8 +13,8 @@
     <div class="col-md-4">
         <div class="input-group">
             <span class="input-group-text bg-white" style="color: #6c757d;"><i class="fas fa-filter"></i></span>
-            <select class="form-select border-start-0" aria-label="Filter Role">
-                <option selected>Tất cả bộ phận...</option>
+            <select class="form-select border-start-0" aria-label="Filter Role" id="filterRole" onchange="executeSearch()">
+                <option value="All" selected>Tất cả bộ phận...</option>
                 <option value="Quản lý">Quản lý</option>
                 <option value="Bán hàng">Bán hàng</option>
                 <option value="Thủ kho">Thủ kho</option>
@@ -26,9 +26,9 @@
 
     <div class="col-md-8 d-flex justify-content-end gap-2">
         <div class="input-group" style="max-width: 250px;">
-            <input type="text" class="form-control" placeholder="Tìm tên, SĐT..." aria-label="Search">
-            <button class="btn btn-outline-secondary bg-white text-muted" type="button">
-                <i class="fas fa-search"></i>
+            <input type="text" class="form-control" placeholder="Tìm tên, SĐT..." aria-label="Search" id="searchInput" onkeyup="executeSearch()">
+            <button class="btn btn-outline-secondary bg-white text-muted" type="button" onclick="executeSearch()">
+                <i class="fas fa-search" ></i>
             </button>
         </div>
         
@@ -36,7 +36,7 @@
             <i class="fas fa-file-export"></i> Xuất file
         </button>
         
-        <button class="btn text-white" data-bs-toggle="modal" data-bs-target="#addEmployeeModal" title="Thêm nhân viên" title="Thêm nhân viên" style="background-color: #1b45cf; border: none;">
+        <button class="btn text-white" data-bs-toggle="modal" data-bs-target="#addEmployeeModal"  title="Thêm nhân viên" style="background-color: #1b45cf; border: none;">
             <i class="fas fa-user-plus fa-lg me-1"></i> Thêm mới
         </button>
     </div>
@@ -66,13 +66,11 @@
     
     <div class="card-footer bg-white py-3">
         <ul class="pagination justify-content-end mb-0">
-            <li class="page-item disabled"><a class="page-link" href="#">Trước</a></li>
-            <li class="page-item active"><a class="page-link" href="#" style="background-color: #1b45cf; border-color: #1b45cf;">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">Sau</a></li>
         </ul>
     </div>
 </div>
 @await Html.PartialAsync("_AddEmployeeModal")
+@await Html.PartialAsync("_EditEmployeeModal")
 @section Scripts {
     <script src="~/js/Admin-emp.js" asp-append-version="true"></script>
 }

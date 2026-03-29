@@ -13,19 +13,46 @@
     <div class="col-md-4">
         <div class="input-group">
             <span class="input-group-text bg-white" style="color: #6c757d;"><i class="fas fa-map-marker-alt"></i></span>
-            <select class="form-select border-start-0" aria-label="Filter Area">
-                <option selected>Tất cả khu vực...</option>
-                <option value="HN">Hà Nội</option>
-                <option value="HCM">TP. Hồ Chí Minh</option>
-                <option value="Other">Tỉnh/Thành khác</option>
+            <select class="form-select border-start-0" id="filterArea" onchange="executeCusSearch()">
+                <option value="All" selected>Tất cả khu vực...</option>
+                <optgroup label="Miền Bắc">
+                    <option value="Hà Nội">Hà Nội</option>
+                    <option value="Thái Bình">Thái Bình</option>
+                    <option value="Hải Phòng">Hải Phòng</option>
+                    <option value="Quảng Ninh">Quảng Ninh</option>
+                    <option value="Bắc Ninh">Bắc Ninh</option>
+                    <option value="Hải Dương">Hải Dương</option>
+                    <option value="Nam Định">Nam Định</option>
+                    <option value="Hà Nam">Hà Nam</option>
+                </optgroup>
+                <optgroup label="Miền Trung">
+                    <option value="Đà Nẵng">Đà Nẵng</option>
+                    <option value="Thanh Hóa">Thanh Hóa</option>
+                    <option value="Nghệ An">Nghệ An</option>
+                    <option value="Huế">Thừa Thiên Huế</option>
+                    <option value="Quảng Nam">Quảng Nam</option>
+                    <option value="Khánh Hòa">Khánh Hòa</option>
+                    <option value="Lâm Đồng">Lâm Đồng</option>
+                    <option value="Bình Thuận">Bình Thuận</option>
+                </optgroup>
+                <optgroup label="Miền Nam">
+                    <option value="Hồ Chí Minh">TP. Hồ Chí Minh</option>
+                    <option value="Bình Dương">Bình Dương</option>
+                    <option value="Đồng Nai">Đồng Nai</option>
+                    <option value="Cần Thơ">Cần Thơ</option>
+                    <option value="Long An">Long An</option>
+                    <option value="Tiền Giang">Tiền Giang</option>
+                    <option value="An Giang">An Giang</option>
+                    <option value="Kiên Giang">Kiên Giang</option>
+                </optgroup>
             </select>
         </div>
     </div>
 
     <div class="col-md-8 d-flex justify-content-end gap-2">
         <div class="input-group" style="max-width: 250px;">
-            <input type="text" class="form-control" placeholder="Tìm tên, SĐT, Email..." aria-label="Search">
-            <button class="btn btn-outline-secondary bg-white text-muted" type="button">
+            <input type="text" class="form-control" placeholder="Tìm tên, SĐT, Email..." aria-label="Search" id="cusSearchInput" onkeyup="executeCusSearch()">
+            <button class="btn btn-outline-secondary bg-white text-muted" type="button" onclick="executeCusSearch()">
                 <i class="fas fa-search"></i>
             </button>
         </div>
@@ -37,7 +64,8 @@
             <i class="fas fa-file-export"></i> Xuất file
         </button>
         
-        <button class="btn text-white" title="Thêm khách hàng" style="background-color: #1b45cf; border: none;">
+        <button class="btn text-white" title="Thêm khách hàng" data-bs-toggle="modal"
+                data-bs-target="#addCustomerModal" style="background-color: #1b45cf; border: none;">
             <i class="fas fa-plus-circle fa-lg me-1"></i> Thêm mới
         </button>
     </div>
@@ -58,63 +86,10 @@
                         <th class="text-center pe-3" width="15%">Hành động</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td class="ps-3"><input type="checkbox" class="form-check-input"></td>
-                        <td><strong>CUS01</strong></td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center me-2" style="width: 35px; height: 35px; font-weight: bold;">V</div>
-                                Vũ Đại Dương
-                            </div>
-                        </td>
-                        <td>0988111222</td>
-                        <td>duongvu@gmail.com</td>
-                        <td>Đống Đa, Hà Nội</td>
-                        <td class="text-center pe-3">
-                            <button class="btn btn-sm btn-light text-success" title="Lịch sử mua hàng"><i class="fas fa-shopping-bag"></i></button>
-                            <button class="btn btn-sm btn-light text-primary" title="Sửa"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-sm btn-light text-danger" title="Xóa/Khóa"><i class="fas fa-ban"></i></button>
-                        </td>
-                    </tr>
+                <tbody id="cusTableBody">
+                   
                     
-                    <tr>
-                        <td class="ps-3"><input type="checkbox" class="form-check-input"></td>
-                        <td><strong>CUS02</strong></td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <div class="bg-info text-white rounded-circle d-flex justify-content-center align-items-center me-2" style="width: 35px; height: 35px; font-weight: bold;">Đ</div>
-                                Đặng Mai Linh
-                            </div>
-                        </td>
-                        <td>0977222333</td>
-                        <td>linhdang@gmail.com</td>
-                        <td>Hai Bà Trưng, HN</td>
-                        <td class="text-center pe-3">
-                            <button class="btn btn-sm btn-light text-success" title="Lịch sử mua hàng"><i class="fas fa-shopping-bag"></i></button>
-                            <button class="btn btn-sm btn-light text-primary" title="Sửa"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-sm btn-light text-danger" title="Xóa/Khóa"><i class="fas fa-ban"></i></button>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="ps-3"><input type="checkbox" class="form-check-input"></td>
-                        <td><strong>CUS03</strong></td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <div class="bg-secondary text-white rounded-circle d-flex justify-content-center align-items-center me-2" style="width: 35px; height: 35px; font-weight: bold;">L</div>
-                                Lý Quang Huy
-                            </div>
-                        </td>
-                        <td>0966333444</td>
-                        <td>huyly@gmail.com</td>
-                        <td>Hoàn Kiếm, Hà Nội</td>
-                        <td class="text-center pe-3">
-                            <button class="btn btn-sm btn-light text-success" title="Lịch sử mua hàng"><i class="fas fa-shopping-bag"></i></button>
-                            <button class="btn btn-sm btn-light text-primary" title="Sửa"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-sm btn-light text-danger" title="Xóa/Khóa"><i class="fas fa-ban"></i></button>
-                        </td>
-                    </tr>
+                 
                 </tbody>
             </table>
         </div>
@@ -122,9 +97,11 @@
     
     <div class="card-footer bg-white py-3">
         <ul class="pagination justify-content-end mb-0">
-            <li class="page-item disabled"><a class="page-link" href="#">Trước</a></li>
-            <li class="page-item active"><a class="page-link" href="#" style="background-color: #1b45cf; border-color: #1b45cf;">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">Sau</a></li>
         </ul>
     </div>
 </div>
+@await Html.PartialAsync("_AddCusModal")
+@await Html.PartialAsync("_EditCusModal")
+@section Scripts {
+    <script src="~/js/Admin-cus.js" asp-append-version="true"></script>
+}

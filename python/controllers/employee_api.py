@@ -85,7 +85,7 @@ def delete_employee(id):
 @employee_bp.route('/search', methods=['POST'])
 def search_employees():
     try:
-        keyword = flask.request.args.get('keyword', )
+        keyword = flask.request.args.get('keyword','' )
         cursor = conn.cursor()
         sql = "select * from Employee where FullName like ? or Phone like ? or Email like ? or Role like ?"
         search_term = f"%{keyword}%"

@@ -88,7 +88,7 @@ def delete_customer(id):
 @customer_bp.route('/search', methods=['POST'])
 def search_customers():
     try:
-        keyword = flask.request.args.get('keyword', )
+        keyword = flask.request.args.get('keyword','' )
         cursor = conn.cursor()
         sql = "select * from Customer where FullName like ? or Phone like ? or Email like ? "
         search_term = f"%{keyword}%"
