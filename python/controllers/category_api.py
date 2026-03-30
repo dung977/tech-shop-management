@@ -87,3 +87,21 @@ def search_categories():
         return flask.jsonify(get_json_results(cursor)), 200
     except Exception as e:
         return flask.jsonify({'error': str(e)}), 400
+        
+@category_bp.route('/getall/products/<name>', methods=['GET'])
+def get_product_by_category(name):
+    cursor = conn.cursor()
+    try:
+        query = """
+                SELECT * FROM Category ct 
+                JOIN Product pr ON ct.CategoryID = pr.CategoryID
+                WHERE Name = ?
+                """
+        cursor.execute(query, (name,))
+        res = get_json_results(cursor)
+        if res:
+            return flask.jsonify(res), 200
+        else:
+            return flask.jsonify({"message":"Can't find any product in that category!"}), 400
+    except Exception as e:
+        return flask.jsonify({"error":str(e)}), 500
