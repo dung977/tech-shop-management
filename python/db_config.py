@@ -2,8 +2,8 @@ import pyodbc
 
 con_str = (
     "Driver={SQL Server};"
-    "Server=.\\SQLEXPRESS;"
-    "Database=ShopManagement;"
+    "Server=localhost\\SQLEXPRESS;"
+    "Database=Dulieu;"
     "Trusted_Connection=yes;"
 )
 conn = pyodbc.connect(con_str) 

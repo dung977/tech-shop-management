@@ -7,7 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\image\category\" />
+    <Folder Include="wwwroot\image\category\laptop\Apple\" />
+    <Folder Include="wwwroot\image\category\laptop\Asus\" />
+    <Folder Include="wwwroot\image\category\laptop\Lenovo\" />
+    <Folder Include="wwwroot\image\category\laptop\Dell\" />
+    <Folder Include="wwwroot\image\category\laptop\Hp\" />
+    <Folder Include="wwwroot\image\category\laptop\MSI\" />
+    <Folder Include="wwwroot\image\category\laptop\ACER\" />
+    <Folder Include="wwwroot\image\category\laptop\Surface\" />
+    <Folder Include="wwwroot\image\category\Ram\" />
     <Folder Include="wwwroot\js\NewFolder\" />
   </ItemGroup>
 
