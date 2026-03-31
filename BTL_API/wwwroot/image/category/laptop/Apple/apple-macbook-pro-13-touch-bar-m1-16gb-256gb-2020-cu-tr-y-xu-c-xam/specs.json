@@ -1,0 +1,38 @@
+{
+    "Bộ xử lý & Đồ họa": {
+        "Loại card đồ họa": "8 nhân GPU, 16 nhân Neural Engine",
+        "Loại CPU": "8 nhân với 4 nhân hiệu năng cao và 4 nhân tiết kiệm điện"
+    },
+    "Bộ nhớ RAM, Ổ cứng": {
+        "Dung lượng RAM": "16GB",
+        "Ổ cứng": "256GB SSD"
+    },
+    "Màn hình": {
+        "Chất liệu tấm nền": "Tấm nền IPS",
+        "Kích thước màn hình": "13.3 inches",
+        "Công nghệ màn hình": "13.3-inch (diagonal) LED-backlit display with IPS technology, Retina display",
+        "Độ phân giải màn hình": "2560 x 1600 pixels (2K)"
+    },
+    "Cổng kết nối": {
+        "Khe đọc thẻ nhớ": "Không",
+        "Wi-Fi": "802.11ax Wi-Fi 6",
+        "Bluetooth": "Bluetooth 5.0",
+        "Cổng giao tiếp": "2 cổng Thunderbolt / USB 4 ports"
+    },
+    "Tiện ích khác": {
+        "Tính năng đặc biệt": "Viền màn hình siêu mỏng, Wi-Fi 6, Bảo mật vân tay"
+    },
+    "Pin & công nghệ sạc": {
+        "Pin": "58.2-watt-hour lithium-polymer, 61W USB-C Power Adapter"
+    },
+    "Tính năng khác": {
+        "Hệ điều hành": "macOS Big Sur"
+    },
+    "Kích thước & Trọng lượng": {
+        "Kích thước": "1.56 cm x 30.41 cm x 21.24 cm",
+        "Trọng lượng": "1.4 kg"
+    },
+    "Loại máy & Chức năng": {
+        "Loại máy": "In Laser đen trắng"
+    }
+}

@@ -1,0 +1,34 @@
+{
+    "Bộ xử lý & Đồ họa": {
+        "Loại card đồ họa": "NVIDIA GeForce GTX 1650Ti 4GB GDDR6 + Radeon™ Vega 8 Graphics",
+        "Loại CPU": "AMD Ryzen 7 3750H 2.3GHz up to 4.0GHz 4MB"
+    },
+    "Bộ nhớ RAM, Ổ cứng": {
+        "Dung lượng RAM": "8GB",
+        "Loại RAM": "DDR4 2666MHz, 2 khe cắm, hỗ trợ tối đa 32GB",
+        "Ổ cứng": "512GB PCIe® NVMe™ M.2 SSD"
+    },
+    "Màn hình": {
+        "Kích thước màn hình": "15.6 inches",
+        "Công nghệ màn hình": "15.6\" FHD (1920 x 1080) IPS, Anti-Glare",
+        "Độ phân giải màn hình": "1920 x 1080 pixels (FullHD)"
+    },
+    "Pin & công nghệ sạc": {
+        "Pin": "4 Cell 48Whr"
+    },
+    "Tính năng khác": {
+        "Hệ điều hành": "Windows 10 Home SL"
+    },
+    "Kích thước & Trọng lượng": {
+        "Kích thước": "363.4 x 254.5 x 23.25 (mm)",
+        "Trọng lượng": "2.1 kg"
+    },
+    "Cổng kết nối": {
+        "Wi-Fi": "Wi-Fi 6(Gig+)(802.11ax) (2x2)",
+        "Bluetooth": "v5.0",
+        "Cổng giao tiếp": "2x USB 3.2, 1x USB Type C, 1x USB 2.0, 1x HDMI, 1x RJ45"
+    },
+    "Loại máy & Chức năng": {
+        "Loại máy": "In Laser đen trắng"
+    }
+}

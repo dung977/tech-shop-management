@@ -1,0 +1,28 @@
+{
+    "Bộ xử lý & Đồ họa": {
+        "Loại card đồ họa": "Intel Iris Plus Graphics",
+        "Loại CPU": "1.1GHz dual-core Intel Core i3, Turbo Boost up to 3.2GHz, with 4MB L3 cache"
+    },
+    "Bộ nhớ RAM, Ổ cứng": {
+        "Ổ cứng": "256GB PCIe-based SSD"
+    },
+    "Màn hình": {
+        "Công nghệ màn hình": "LED-backlit display with IPS technology",
+        "Kích thước màn hình": "13.3 inches",
+        "Độ phân giải màn hình": "2560 x 1600 pixels (2K)"
+    },
+    "Pin & công nghệ sạc": {
+        "Pin": "9.9‑watt‑hour lithium‑polymer battery, 30W USB-C Power Adapter; USB-C power port"
+    },
+    "Tính năng khác": {
+        "Hệ điều hành": "macOS"
+    },
+    "Kích thước & Trọng lượng": {
+        "Kích thước": "0.41–1.61cm x 30.41cm x 21.24cm",
+        "Trọng lượng": "1.29kg"
+    },
+    "Cổng kết nối": {
+        "Wi-Fi": "802.11ac Wi-Fi wireless networking, IEEE 802.11a/b/g/n compatible",
+        "Bluetooth": "Bluetooth 5.0"
+    }
+}

@@ -1,0 +1,39 @@
+{
+    "Bộ xử lý & Đồ họa": {
+        "Loại card đồ họa": "Intel UHD Graphics",
+        "Loại CPU": "10th Gen Intel Core i5 processor – 1035G1"
+    },
+    "Bộ nhớ RAM, Ổ cứng": {
+        "Dung lượng RAM": "8GB",
+        "Loại RAM": "LPDDR4x",
+        "Ổ cứng": "256GB"
+    },
+    "Màn hình": {
+        "Chất liệu tấm nền": "Tấm nền IPS",
+        "Kích thước màn hình": "12.4 inches",
+        "Công nghệ màn hình": "Công nghệ màn hình PixelSense, cảm ứng đa điểm",
+        "Độ phân giải màn hình": "1536 x 1024 pixels"
+    },
+    "Âm thanh": {
+        "Công nghệ âm thanh": "Mics Studio trường xa kép, Loa Omnisonic với Dolby® Audio ™"
+    },
+    "Tiện ích khác": {
+        "Tính năng đặc biệt": "Viền màn hình siêu mỏng, Wi-Fi 6, Màn hình cảm ứng"
+    },
+    "Tính năng khác": {
+        "Webcam": "Camera 720p, khẩu độ f2.0",
+        "Hệ điều hành": "Windows 10 Home in S mode"
+    },
+    "Pin & công nghệ sạc": {
+        "Pin": "Lên đến 13 giờ (Tùy vào nhu cầu sử dụng)"
+    },
+    "Kích thước & Trọng lượng": {
+        "Kích thước": "278.18 mm x 205.67 mm x 15.69 mm",
+        "Trọng lượng": "1,110 g"
+    },
+    "Cổng kết nối": {
+        "Wi-Fi": "Wi-Fi 6: 802.11ax",
+        "Bluetooth": "5.0",
+        "Cổng giao tiếp": "1 cổng USB-C\n1 cổng USB-A\n1 cổng 3.5 mm headphone jack\n1 cổng Surface Connect port"
+    }
+}

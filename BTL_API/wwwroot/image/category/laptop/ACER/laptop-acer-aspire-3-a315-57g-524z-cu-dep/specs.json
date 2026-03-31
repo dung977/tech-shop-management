@@ -1,0 +1,32 @@
+{
+    "Bộ xử lý & Đồ họa": {
+        "Loại card đồ họa": "NVIDIA® GeForce® MX330 2GB",
+        "Loại CPU": "Intel Core i5-1035G1"
+    },
+    "Bộ nhớ RAM, Ổ cứng": {
+        "Dung lượng RAM": "8GB",
+        "Loại RAM": "DDR4 2400MHz 1 khe cắm, hỗ trợ tối đa 20GB",
+        "Ổ cứng": "512GB SSD"
+    },
+    "Tiện ích khác": {},
+    "Màn hình": {
+        "Kích thước màn hình": "15.6 inches",
+        "Công nghệ màn hình": "tần số quét 60Hz",
+        "Độ phân giải màn hình": "1080 x 1920 pixels (FullHD)"
+    },
+    "Pin & công nghệ sạc": {
+        "Pin": "3-cell, 36 Wh"
+    },
+    "Tính năng khác": {
+        "Hệ điều hành": "Windows 10 Home"
+    },
+    "Kích thước & Trọng lượng": {
+        "Kích thước": "363.4 x 250.5 x 19.95 mm",
+        "Trọng lượng": "1.9 kg"
+    },
+    "Cổng kết nối": {
+        "Wi-Fi": "802.11a/b/g/n/ac",
+        "Bluetooth": "v4.2",
+        "Cổng giao tiếp": "1 x USB 2.0\n2 x USB 3.2 Gen 1\n1 x HDMI\n1 x 3.5mm headphone/speaker jack"
+    }
+}

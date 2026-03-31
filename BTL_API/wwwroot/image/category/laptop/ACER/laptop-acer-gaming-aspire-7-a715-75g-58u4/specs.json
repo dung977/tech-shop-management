@@ -1,0 +1,38 @@
+{
+    "Bộ xử lý & Đồ họa": {
+        "Loại card đồ họa": "NVIDIA GeForce GTX 1650 4GB",
+        "Loại CPU": "Intel Core i5 Comet Lake - 10300H"
+    },
+    "Bộ nhớ RAM, Ổ cứng": {
+        "Dung lượng RAM": "8GB",
+        "Loại RAM": "DDR4 3200 MHz",
+        "Số khe ram": "2 khe cắm tối đa 32GB",
+        "Ổ cứng": "512 GB SSD NVMe PCIe (Có thể tháo ra, lắp thanh khác tối đa 1TB)"
+    },
+    "Màn hình": {
+        "Chất liệu tấm nền": "Tấm nền IPS",
+        "Kích thước màn hình": "15.6 inches",
+        "Công nghệ màn hình": "Acer ComfyView",
+        "Độ phân giải màn hình": "1920 x 1080 pixels (FullHD)"
+    },
+    "Kích thước & Trọng lượng": {
+        "Chất liệu": "Vỏ nhựa",
+        "Kích thước": "Dài 363.4 mm - Rộng 254.5 mm - Dày 22.9 mm",
+        "Trọng lượng": "2.15 kg"
+    },
+    "Tiện ích khác": {
+        "Tính năng đặc biệt": "Wi-Fi 6"
+    },
+    "Tính năng khác": {
+        "Webcam": "720p",
+        "Hệ điều hành": "Windows 11 Home SL"
+    },
+    "Pin & công nghệ sạc": {
+        "Pin": "Li-ion, 48 Wh"
+    },
+    "Cổng kết nối": {
+        "Wi-Fi": "Wi-Fi 6 (802.11ax)",
+        "Bluetooth": "Bluetooth 5.0",
+        "Cổng giao tiếp": "2 x USB 3.2\nHDMI\nJack tai nghe 3.5 mm\nLAN (RJ45)\nUSB 2.0\nUSB Type-C"
+    }
+}

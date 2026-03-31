@@ -1,0 +1,30 @@
+{
+    "Bộ nhớ RAM, Ổ cứng": {
+        "Dung lượng RAM": "8GB",
+        "Loại RAM": "LPDDR3 ‎2133 MHz",
+        "Ổ cứng": "256GB"
+    },
+    "Màn hình": {
+        "Chất liệu tấm nền": "Tấm nền IPS",
+        "Kích thước màn hình": "13.3 inches",
+        "Công nghệ màn hình": "LED Backlit",
+        "Độ phân giải màn hình": "2560 x 1600 pixels (2K)"
+    },
+    "Tính năng khác": {
+        "Webcam": "720p FaceTime HD camera."
+    },
+    "Pin & công nghệ sạc": {
+        "Pin": "Lithium-Polymer, Liền 50.3 Wh"
+    },
+    "Bộ xử lý & Đồ họa": {
+        "Loại CPU": "Intel Dual - Core i5 1.6 GHz"
+    },
+    "Kích thước & Trọng lượng": {
+        "Kích thước": "Dài 304.1 mm - Rộng 212.4 mm - Dày 15.6 mm",
+        "Trọng lượng": "2.5kg"
+    },
+    "Cổng kết nối": {
+        "Wi-Fi": "802.11 ac",
+        "Bluetooth": "Bluetooth 4.2"
+    }
+}

@@ -1,0 +1,29 @@
+{
+    "Bộ xử lý & Đồ họa": {
+        "Loại card đồ họa": "Microsoft SQ1 Adreno 685 GPU",
+        "Loại CPU": "Microsoft SQ1"
+    },
+    "Bộ nhớ RAM, Ổ cứng": {
+        "Ổ cứng": "128GB SSD"
+    },
+    "Màn hình": {
+        "Kích thước màn hình": "13 inches",
+        "Công nghệ màn hình": "PixelSense",
+        "Độ phân giải màn hình": "2880 x 1920 pixels"
+    },
+    "Pin & công nghệ sạc": {
+        "Pin": "Lên đến 13 giờ sử dụng thiết bị thông thường"
+    },
+    "Tính năng khác": {
+        "Hệ điều hành": "Windows 10 Pro"
+    },
+    "Kích thước & Trọng lượng": {
+        "Kích thước": "287 mm x 208 mm x 7.3 mm",
+        "Trọng lượng": "774 g"
+    },
+    "Cổng kết nối": {
+        "Wi-Fi": "802.11ac compatible",
+        "Bluetooth": "5.0",
+        "Cổng giao tiếp": "- 2 x USB-C\n- 1 x Surface Connect port\n- Surface Keyboard port\n- 1 x nano SIM\n- Compatible with Surface Dial* off-screen interaction"
+    }
+}

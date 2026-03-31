@@ -1,0 +1,41 @@
+{
+    "Bộ xử lý & Đồ họa": {
+        "Loại card đồ họa": "Intel Iris Xe Graphics",
+        "Loại CPU": "Intel Core i5 Tiger Lake - 1135G7"
+    },
+    "Bộ nhớ RAM, Ổ cứng": {
+        "Dung lượng RAM": "8GB",
+        "Loại RAM": "DDR4 (On board 4GB +1 khe 4GB)",
+        "Số khe ram": "Hỗ trợ tối đa 20GB",
+        "Ổ cứng": "512 GB SSD NVMe PCIe (Có thể tháo ra, lắp thanh khác tối đa 1TB)\nHỗ trợ khe cắm HDD SATA (nâng cấp tối đa 2TB)"
+    },
+    "Màn hình": {
+        "Chất liệu tấm nền": "Tấm nền IPS",
+        "Kích thước màn hình": "14 inches",
+        "Công nghệ màn hình": "Acer ComfyView",
+        "Độ phân giải màn hình": "1920 x 1080 pixels (FullHD)"
+    },
+    "Âm thanh": {
+        "Công nghệ âm thanh": "Acer TrueHarmony"
+    },
+    "Kích thước & Trọng lượng": {
+        "Chất liệu": "Vỏ nhựa",
+        "Kích thước": "Dài 328 mm - Rộng 223 mm - Dày 17.95 mm -",
+        "Trọng lượng": "1.46 kg"
+    },
+    "Tiện ích khác": {
+        "Tính năng đặc biệt": "Wi-Fi 6"
+    },
+    "Tính năng khác": {
+        "Webcam": "720p",
+        "Hệ điều hành": "Windows 11 Home SL"
+    },
+    "Pin & công nghệ sạc": {
+        "Pin": "Li-ion, 48 Wh"
+    },
+    "Cổng kết nối": {
+        "Wi-Fi": "Wi-Fi 6 (802.11ax)",
+        "Bluetooth": "v5.1",
+        "Cổng giao tiếp": "2 x USB 3.2\nHDMI\nJack tai nghe 3.5 mm\nLAN (RJ45)\nUSB Type-C"
+    }
+}

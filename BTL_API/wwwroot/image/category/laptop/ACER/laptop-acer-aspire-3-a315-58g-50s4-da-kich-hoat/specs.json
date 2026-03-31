@@ -1,0 +1,39 @@
+{
+    "Bộ xử lý & Đồ họa": {
+        "Loại card đồ họa": "NVIDIA GeForce MX350 2GB GDDR5 + Intel Model UHD",
+        "Loại CPU": "Intel Core i5-1135G7 2.4GHz up to 4.2GHz 8MB, 4 nhân 8 luồng"
+    },
+    "Bộ nhớ RAM, Ổ cứng": {
+        "Dung lượng RAM": "8GB",
+        "Loại RAM": "DDR4 2666MHz, 1 khe cắm tối đa 12GB",
+        "Ổ cứng": "512GB SSD M.2 PCIE, 1x slot SATA3 2.5\""
+    },
+    "Màn hình": {
+        "Chất liệu tấm nền": "Tấm nền TN",
+        "Kích thước màn hình": "15.6 inches",
+        "Công nghệ màn hình": "60 Hz, Màn hình chống loá, Acer ComfyView LED-backlit",
+        "Độ phân giải màn hình": "1920 x 1080 pixels (FullHD)"
+    },
+    "Âm thanh": {
+        "Công nghệ âm thanh": "Acer TrueHarmony"
+    },
+    "Cổng kết nối": {
+        "Khe đọc thẻ nhớ": "Có",
+        "Wi-Fi": "802.11a/b/g/n/ac",
+        "Bluetooth": "v5.0",
+        "Cổng giao tiếp": "2x USB 3.2 Gen 1 Type-A\n1x USB 2.0\n1x HDMI\n1x RJ45"
+    },
+    "Kích thước & Trọng lượng": {
+        "Chất liệu": "Vỏ nhựa",
+        "Kích thước": "363 x 238.4 x 19.9 (mm)",
+        "Trọng lượng": "1.9 kg"
+    },
+    "Tiện ích khác": {},
+    "Tính năng khác": {
+        "Webcam": "HD 720p",
+        "Hệ điều hành": "Windows 11 Home SL"
+    },
+    "Pin & công nghệ sạc": {
+        "Pin": "2 Cell 36.7 Whr"
+    }
+}

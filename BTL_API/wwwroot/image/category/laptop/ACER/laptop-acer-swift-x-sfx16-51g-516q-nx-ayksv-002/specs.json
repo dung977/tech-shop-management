@@ -1,0 +1,44 @@
+{
+    "Bộ xử lý & Đồ họa": {
+        "Loại card đồ họa": "NVIDIA GeForce RTX 3050 4GB DDR6",
+        "Loại CPU": "Intel Core i5-11320H"
+    },
+    "Bộ nhớ RAM, Ổ cứng": {
+        "Dung lượng RAM": "16GB",
+        "Loại RAM": "LPDDR4X 4266MHz",
+        "Số khe ram": "Không hỗ trợ nâng cấp",
+        "Ổ cứng": "512GB PCIe NVMe SSD"
+    },
+    "Màn hình": {
+        "Chất liệu tấm nền": "Tấm nền TFT",
+        "Kích thước màn hình": "16.1 inches",
+        "Công nghệ màn hình": "Hỗ trợ dải màu 100% sRGB, Công nghệ Acer ComfyView",
+        "Độ phân giải màn hình": "1920 x 1080 pixels (FullHD)"
+    },
+    "Âm thanh": {
+        "Công nghệ âm thanh": "Loa kép, công nghệ Acer TrueHarmony"
+    },
+    "Cổng kết nối": {
+        "Khe đọc thẻ nhớ": "Không",
+        "Wi-Fi": "802.11 ax",
+        "Bluetooth": "v5.1",
+        "Cổng giao tiếp": "1 x USB Type-C port: USB 3.2 Gen 2\n1 x HDMI 2.0\n1 x combo mic tai nghe 3.5mm"
+    },
+    "Kích thước & Trọng lượng": {
+        "Chất liệu": "Vỏ kim loại",
+        "Kích thước": "367.8 (W) x 236.1 (D) x 18.9 (H) mm",
+        "Trọng lượng": "1.9kg"
+    },
+    "Tiện ích khác": {
+        "Tính năng đặc biệt": "Wi-Fi 6, Bảo mật vân tay"
+    },
+    "Tính năng khác": {
+        "Loại đèn bàn phím": "LED đơn sắc",
+        "Bảo mật": "Cảm biến vân tay",
+        "Webcam": "720P",
+        "Hệ điều hành": "Windows 11 Home SL"
+    },
+    "Pin & công nghệ sạc": {
+        "Pin": "59Wh"
+    }
+}

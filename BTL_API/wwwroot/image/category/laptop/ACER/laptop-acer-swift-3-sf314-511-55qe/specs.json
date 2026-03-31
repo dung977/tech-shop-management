@@ -1,0 +1,43 @@
+{
+    "Bộ xử lý & Đồ họa": {
+        "Loại card đồ họa": "Intel Iris Xe Graphics",
+        "Loại CPU": "Intel Core i5 Tiger Lake - 1135G7"
+    },
+    "Bộ nhớ RAM, Ổ cứng": {
+        "Dung lượng RAM": "16GB",
+        "Loại RAM": "LPDDR4X 4266 MHz",
+        "Số khe ram": "Không hỗ trợ nâng cấp",
+        "Ổ cứng": "512 GB SSD NVMe PCIe (Có thể tháo ra, lắp thanh khác tối đa 1TB)"
+    },
+    "Màn hình": {
+        "Chất liệu tấm nền": "Tấm nền IPS",
+        "Kích thước màn hình": "14 inches",
+        "Công nghệ màn hình": "Công nghệ Acer ComfyView",
+        "Độ phân giải màn hình": "1920 x 1080 pixels (FullHD)"
+    },
+    "Âm thanh": {
+        "Công nghệ âm thanh": "Loa kép, công nghệ Acer TrueHarmonyDTS Audio"
+    },
+    "Kích thước & Trọng lượng": {
+        "Chất liệu": "Vỏ kim loại",
+        "Kích thước": "Dài 322.8 mm - Rộng 212.2 mm - Dày 15.9 mm",
+        "Trọng lượng": "1.19 kg"
+    },
+    "Tiện ích khác": {
+        "Tính năng đặc biệt": "Viền màn hình siêu mỏng, Wi-Fi 6, Bảo mật vân tay"
+    },
+    "Tính năng khác": {
+        "Loại đèn bàn phím": "LED đơn sắc",
+        "Bảo mật": "Cảm biến vân tay, Tiêu chuẩn Nền Intel Evo",
+        "Webcam": "720P",
+        "Hệ điều hành": "Windows 11 Home SL"
+    },
+    "Pin & công nghệ sạc": {
+        "Pin": "Li-ion, 56 Wh"
+    },
+    "Cổng kết nối": {
+        "Wi-Fi": "Wi-Fi 6 (802.11ax)",
+        "Bluetooth": "v5.1",
+        "Cổng giao tiếp": "2 x USB 3.2\nHDMI\nJack tai nghe 3.5 mm\nThunderbolt 4 USB-C"
+    }
+}

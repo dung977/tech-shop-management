@@ -1,0 +1,38 @@
+{
+    "Bộ xử lý & Đồ họa": {
+        "Loại card đồ họa": "Intel Iris Xe Graphics",
+        "Loại CPU": "Intel Core i5 Tiger Lake - 1135G7"
+    },
+    "Bộ nhớ RAM, Ổ cứng": {
+        "Dung lượng RAM": "8GB",
+        "Loại RAM": "DDR4 2400Mhz",
+        "Số khe ram": "1 khe cắm rời hỗ trợ tối đa 12GB",
+        "Ổ cứng": "512 GB SSD NVMe PCIe (Có thể tháo ra, lắp thanh khác tối đa 1TB)Hỗ trợ khe cắm HDD SATA (nâng cấp tối đa 2TB)"
+    },
+    "Màn hình": {
+        "Chất liệu tấm nền": "Tấm nền TFT",
+        "Kích thước màn hình": "15.6 inches",
+        "Công nghệ màn hình": "Công nghệ Acer ComfyView",
+        "Độ phân giải màn hình": "1920 x 1080 pixels (FullHD)"
+    },
+    "Âm thanh": {
+        "Công nghệ âm thanh": "Loa kép"
+    },
+    "Kích thước & Trọng lượng": {
+        "Chất liệu": "Vỏ nhựa",
+        "Kích thước": "Dài 363.4 mm - Rộng 238.4 mm - Dày 19.9 mm",
+        "Trọng lượng": "1.7 kg"
+    },
+    "Tính năng khác": {
+        "Webcam": "720P",
+        "Hệ điều hành": "Windows 11 Home SL"
+    },
+    "Pin & công nghệ sạc": {
+        "Pin": "2-cell Li-ion, 36.7 Wh"
+    },
+    "Cổng kết nối": {
+        "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac",
+        "Bluetooth": "v5.0",
+        "Cổng giao tiếp": "2 x USB 3.2\nHDMI\nJack tai nghe 3.5 mm\nLAN (RJ45)\nUSB 2.0"
+    }
+}

@@ -1,0 +1,34 @@
+{
+    "Bộ xử lý & Đồ họa": {
+        "Loại card đồ họa": "Intel Iris Plus Graphics 645",
+        "Loại CPU": "1.4GHz quad‑core 8th‑generation Intel Core i5, Turbo Boost up to 3.9GHz, with 128MB of eDRAM"
+    },
+    "Bộ nhớ RAM, Ổ cứng": {
+        "Dung lượng RAM": "8GB",
+        "Ổ cứng": "256GB SSD"
+    },
+    "Màn hình": {
+        "Chất liệu tấm nền": "Tấm nền IPS",
+        "Công nghệ màn hình": "LED-backlit display with IPS technology, độ sáng 500 nits, chuẩn màu Wide color (P3), công nghệ True Tone",
+        "Kích thước màn hình": "13.3 inches",
+        "Độ phân giải màn hình": "2560 x 1600 pixels (2K)"
+    },
+    "Cổng kết nối": {
+        "Cổng giao tiếp": "Thunderbolt 3 (USB-C) x 2 support for: Charging DisplayPort Thunderbolt (up to 40Gb/s) USB 3.1 Gen 2 (up to 10Gb/s), 3.5mm headphone jack",
+        "Wi-Fi": "802.11ac",
+        "Bluetooth": "Bluetooth 5.0"
+    },
+    "Tiện ích khác": {
+        "Tính năng đặc biệt": "Viền màn hình siêu mỏng"
+    },
+    "Pin & công nghệ sạc": {
+        "Pin": "Built‑in 58.2‑watt‑hour lithium‑polymer battery, 61W USB‑C Power Adapter"
+    },
+    "Tính năng khác": {
+        "Hệ điều hành": "macOS Catalina"
+    },
+    "Kích thước & Trọng lượng": {
+        "Kích thước": "1.56 x 30.41 x 21.24",
+        "Trọng lượng": "1.4 kg"
+    }
+}

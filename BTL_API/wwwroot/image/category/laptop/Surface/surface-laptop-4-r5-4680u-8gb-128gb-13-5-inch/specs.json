@@ -1,0 +1,38 @@
+{
+    "Bộ xử lý & Đồ họa": {
+        "Loại card đồ họa": "AMD Radeon Graphics",
+        "Loại CPU": "AMD Ryzen 5 4680U 6 nhân"
+    },
+    "Bộ nhớ RAM, Ổ cứng": {
+        "Dung lượng RAM": "8GB",
+        "Loại RAM": "LPDDR4",
+        "Ổ cứng": "128GB SSD"
+    },
+    "Màn hình": {
+        "Chất liệu tấm nền": "Tấm nền IPS",
+        "Kích thước màn hình": "13.5 inches",
+        "Công nghệ màn hình": "PixelSense™ Display, Tỉ lệ khung ảnh 3:2",
+        "Độ phân giải màn hình": "2256 x 1504 pixels"
+    },
+    "Âm thanh": {
+        "Công nghệ âm thanh": "Loa 2W với Dolby® Audio™ và Dual far-field Studio Mics"
+    },
+    "Cổng kết nối": {
+        "Khe đọc thẻ nhớ": "Có",
+        "Wi-Fi": "Wi-Fi 6: 802.11ax",
+        "Bluetooth": "5.0",
+        "Cổng giao tiếp": "1 x USB-C\n1 x USB-A\nJack cắm 3.5 mm\n1 x cổng kết nối Surface"
+    },
+    "Kích thước & Trọng lượng": {
+        "Chất liệu": "Vỏ kim loại",
+        "Kích thước": "308 x 223 x 14.5 mm",
+        "Trọng lượng": "1.27 kg"
+    },
+    "Tiện ích khác": {
+        "Tính năng đặc biệt": "Wi-Fi 6, Màn hình cảm ứng"
+    },
+    "Tính năng khác": {
+        "Webcam": "720p",
+        "Hệ điều hành": "Window 10 Home"
+    }
+}

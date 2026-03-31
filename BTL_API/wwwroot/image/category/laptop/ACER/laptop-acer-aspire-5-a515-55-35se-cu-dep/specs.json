@@ -1,0 +1,31 @@
+{
+    "Bộ xử lý & Đồ họa": {
+        "Loại card đồ họa": "Intel UHD Graphics",
+        "Loại CPU": "Intel Core i3-1005G1 Processor (Up to 3.4GHz)"
+    },
+    "Bộ nhớ RAM, Ổ cứng": {
+        "Dung lượng RAM": "4GB",
+        "Loại RAM": "4GB DDR4 onboard, trống 1 khe",
+        "Ổ cứng": "128GB NVMe SSD"
+    },
+    "Màn hình": {
+        "Chất liệu tấm nền": "Tấm nền IPS",
+        "Kích thước màn hình": "15.6 inches",
+        "Độ phân giải màn hình": "1080 x 1920 pixels (FullHD)"
+    },
+    "Âm thanh": {
+        "Công nghệ âm thanh": "Acer TrueHarmony"
+    },
+    "Tiện ích khác": {
+        "Tính năng đặc biệt": "Wi-Fi 6, Bảo mật vân tay"
+    },
+    "Tính năng khác": {
+        "Webcam": "HD Webcam",
+        "Hệ điều hành": "Windows 10 Home"
+    },
+    "Cổng kết nối": {
+        "Wi-Fi": "WiFi 6 AX201 802.11ax",
+        "Bluetooth": "Có",
+        "Cổng giao tiếp": "1x USB 3.1 (Type-C) Gen 1 port (up to 5 Gbps)\n2x USB 3.1 Gen 1 Port (one with Power-off Charging)\n1x USB 2.0 Port\n1x HDMI Port with HDCP Support"
+    }
+}

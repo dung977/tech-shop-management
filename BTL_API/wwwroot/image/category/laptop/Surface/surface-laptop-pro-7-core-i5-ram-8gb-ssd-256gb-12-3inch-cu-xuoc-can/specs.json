@@ -1,0 +1,29 @@
+{
+    "Bộ xử lý & Đồ họa": {
+        "Loại card đồ họa": "Intel® Iris® Plus Graphics",
+        "Loại CPU": "10th Gen Intel® Core™ i5-1035G4"
+    },
+    "Bộ nhớ RAM, Ổ cứng": {
+        "Ổ cứng": "256GB BGA PCIe SSD"
+    },
+    "Màn hình": {
+        "Kích thước màn hình": "12.3 inches",
+        "Công nghệ màn hình": "PixelSense™ Display , Aspect ratio: 3:2",
+        "Độ phân giải màn hình": "2736 x 1824 pixels"
+    },
+    "Pin & công nghệ sạc": {
+        "Pin": "43.2 Wh, 60W power supply with USB-A (5W) (65W total) , Supports Fast Charge (0-80% in just over one hour)"
+    },
+    "Tính năng khác": {
+        "Hệ điều hành": "Windows 10 Home"
+    },
+    "Kích thước & Trọng lượng": {
+        "Kích thước": "292 mm x 201 mm x 8.5 mm",
+        "Trọng lượng": "776 g"
+    },
+    "Cổng kết nối": {
+        "Wi-Fi": "Wi-Fi 6: IEEE 802.11 a/b/g/n/ac/ax compatible",
+        "Bluetooth": "Bluetooth Wireless 5.0 technology",
+        "Cổng giao tiếp": "1 x Surface Connect\n1 x Headset jack\n1 x Cover port"
+    }
+}

@@ -1,0 +1,38 @@
+{
+    "Bộ xử lý & Đồ họa": {
+        "Loại card đồ họa": "NVIDIA GeForce MX330 2 GB",
+        "Loại CPU": "Intel Core i5 Ice Lake - 1035G1"
+    },
+    "Bộ nhớ RAM, Ổ cứng": {
+        "Dung lượng RAM": "8GB",
+        "Loại RAM": "DDR4 2400 MHz",
+        "Số khe ram": "DDR4 (On board 4GB + 1 khe 4GB)\nHỗ trợ tối đa 20GB",
+        "Ổ cứng": "512 GB SSD NVMe PCIe\nHỗ trợ khe cắm HDD SATA (nâng cấp tối đa 2TB)"
+    },
+    "Màn hình": {
+        "Chất liệu tấm nền": "Tấm nền TFT",
+        "Kích thước màn hình": "15.6 inches",
+        "Công nghệ màn hình": "Công nghệ màn hình Acer ComfyView",
+        "Độ phân giải màn hình": "1920 x 1080 pixels (FullHD)"
+    },
+    "Âm thanh": {
+        "Công nghệ âm thanh": "Loa kép"
+    },
+    "Kích thước & Trọng lượng": {
+        "Chất liệu": "Vỏ nhựa",
+        "Kích thước": "Dài 363.4 mm - Rộng 250.5 mm - Dày 19.95 mm",
+        "Trọng lượng": "1.9 kg"
+    },
+    "Tính năng khác": {
+        "Webcam": "VGA Webcam",
+        "Hệ điều hành": "Windows 11 Home SL"
+    },
+    "Pin & công nghệ sạc": {
+        "Pin": "3-cell Li-ion, 36 Wh"
+    },
+    "Cổng kết nối": {
+        "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac",
+        "Bluetooth": "v5.0",
+        "Cổng giao tiếp": "2 x USB 3.2\nHDMI\nJack tai nghe 3.5 mm\nLAN (RJ45)\nUSB 2.0"
+    }
+}

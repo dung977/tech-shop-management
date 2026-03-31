@@ -1,0 +1,32 @@
+{
+    "Bộ xử lý & Đồ họa": {
+        "Loại card đồ họa": "Geforce GTX 1650 4GB",
+        "Loại CPU": "AMD Ryzen 5 5500U"
+    },
+    "Bộ nhớ RAM, Ổ cứng": {
+        "Dung lượng RAM": "8GB",
+        "Loại RAM": "DDR4 3200MHz, 2 khe cắm tối đa 32GB",
+        "Ổ cứng": "256GB SSD NVMe M.2 PCIe Gen 3 x 4"
+    },
+    "Màn hình": {
+        "Chất liệu tấm nền": "Tấm nền IPS",
+        "Kích thước màn hình": "15.6 inches",
+        "Độ phân giải màn hình": "1920 x 1080 pixels (FullHD)"
+    },
+    "Cổng kết nối": {
+        "Khe đọc thẻ nhớ": "Có",
+        "Wi-Fi": "802.11ac 2×2 Wi-Fi",
+        "Bluetooth": "v5.0",
+        "Cổng giao tiếp": "2x USB 2.0; 1x USB 3.0; 1x USB 3.1 Type C; 1x HDMI"
+    },
+    "Tiện ích khác": {},
+    "Pin & công nghệ sạc": {
+        "Pin": "3 Cell , 48 Whr"
+    },
+    "Tính năng khác": {
+        "Hệ điều hành": "Windows 11 Home SL"
+    },
+    "Kích thước & Trọng lượng": {
+        "Trọng lượng": "2.1 kg"
+    }
+}
