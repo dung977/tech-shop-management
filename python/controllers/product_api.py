@@ -43,12 +43,16 @@ def add_product():
         Image = flask.request.json.get("Image")
         Information = flask.request.json.get("Information")
         Status = flask.request.json.get("Status")
+        
         cursor.execute("SELECT ProductID FROM Product WHERE ProductID = ?", (ProductID,))
         if cursor.fetchone():
             return flask.jsonify({"message": "ProductID already exists!"}), 400
         cursor.execute("SELECT ProductName FROM Product WHERE ProductName = ?", (ProductName,))
         if cursor.fetchone():
             return flask.jsonify({"message": "Product name already exist!"}), 400
+        cursor.execute("SELECT CategoryID FROM Product WHERE CategoryID = ?", (CategoryID,))
+        if not cursor.fetchone():
+            return flask.jsonify({"message": "Category does not exist!"}), 400
         query = """
                 INSERT INTO Product(ProductID, ProductName, Brand, 
                 Image, Information, Status, CategoryID) 
@@ -70,6 +74,10 @@ def update_product(ID):
         Brand = flask.request.json.get("Brand")
         Image = flask.request.json.get("Image")
         CategoryID = flask.request.json.get("CategoryID")
+
+        cursor.execute("SELECT CategoryID FROM Product WHERE CategoryID = ?", (CategoryID,))
+        if not cursor.fetchone():
+            return flask.jsonify({"message": "Category does not exist!"}), 400
         Information = flask.request.json.get("Information")
         Status = flask.request.json.get("Status")
         query = """
