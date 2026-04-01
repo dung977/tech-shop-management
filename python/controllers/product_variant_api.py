@@ -35,7 +35,7 @@ def add_variant():
     cursor = conn.cursor()
     try:
         ProductVariantID = "VAR_" + str(uuid.uuid4())[:6]
-        ProductID = "PRO_" + str(uuid.uuid4())[:6]
+        ProductID = flask.request.json.get("ProductID")
         Color = flask.request.json.get("Color")
         StockQuantity = flask.request.json.get("StockQuantity")
         SellingPrice = flask.request.json.get("SellingPrice")
@@ -60,16 +60,17 @@ def add_variant():
 def update_variant(ID):
     cursor = conn.cursor()
     try:
+        ProductID = flask.request.json.get("ProductID")
         Color = flask.request.json.get("Color")
         StockQuantity = flask.request.json.get("StockQuantity")
         SellingPrice = flask.request.json.get("SellingPrice")
         Description = flask.request.json.get("Description")
         query = """
-                UPDATE Productvariant SET Color = ?,
+                UPDATE Productvariant SET ProductID = ?, Color = ?,
                 SellingPrice = ?, StockQuantity = ?, Description = ?
                 WHERE ProductVariantID = ?
                 """
-        cursor.execute(query, (Color, SellingPrice, StockQuantity, Description, ID))
+        cursor.execute(query, (ProductID, Color, SellingPrice, StockQuantity, Description, ID))
         conn.commit()
         
         return flask.jsonify({"message": "Success!"}), 200
