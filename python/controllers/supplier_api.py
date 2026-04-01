@@ -17,7 +17,6 @@ def get_all_supplier():
     except Exception as e:
         return flask.jsonify({"error": str(e)}), 500
 
-
 @supplier_bp.route('/add', methods=['POST'])
 def add_supplier():
     cursor = conn.cursor()
@@ -27,16 +26,19 @@ def add_supplier():
         Address = flask.request.json.get("Address")
         Phone = flask.request.json.get("Phone")
         Email = flask.request.json.get("Email")
+        isDelete = 0
         cursor.execute("SELECT SupplierID FROM Supplier WHERE SupplierID = ?", (SupplierID,))
         if cursor.fetchone():
             return flask.jsonify({"message": "SupplierID already exist!"}), 400
         cursor.execute("SELECT SupplierName FROM Supplier WHERE SupplierName = ?", (SupplierName,))
         if cursor.fetchone():
             return flask.jsonify({"message": "Supplier name already exist!"}), 400
-        query = "INSERT INTO Supplier(SupplierID, SupplierName, Address, Phone, Email) VALUES(?, ?, ?, ?, ?)"
-        cursor.execute(query, (SupplierID, SupplierName, Address, Phone, Email))
+        query = """
+                INSERT INTO Supplier(SupplierID, SupplierName, Address, Phone, Email, isDelete)
+                VALUES(?, ?, ?, ?, ?, ?)
+                """
+        cursor.execute(query, (SupplierID, SupplierName, Address, Phone, Email, isDelete))
         conn.commit()
-        
         return flask.jsonify({"message": "Success!"}), 201
     except Exception as e:
         return flask.jsonify({"error": str(e)}), 500
@@ -50,7 +52,7 @@ def update_supplier(ID):
         Address = flask.request.json.get("Address")
         Phone = flask.request.json.get("Phone")
         Email = flask.request.json.get("Email")
-        query = "UPDATE Supplier SET, SupplierName = ?, Address = ?, Phone = ?, Email = ? WHERE SupplierID = ?"
+        query = "UPDATE Supplier SET SupplierName = ?, Address = ?, Phone = ?, Email = ? WHERE SupplierID = ?"
         cursor.execute(query, (SupplierName, Address, Phone, Email, ID))
         conn.commit()
         
@@ -63,10 +65,9 @@ def update_supplier(ID):
 def delete_supplier(ID):
     cursor = conn.cursor()
     try:
-        query = "DELETE FROM Supplier WHERE SupplierID = ?"
+        query = "UPDATE FROM Supplier SET isDelete = 1 WHERE SupplierName = ?"
         cursor.execute(query, (ID,))
         conn.commit()
-        
         return flask.jsonify({"message": "Success!"}), 200
     except Exception as e:
         return flask.jsonify({"error": str(e)}), 500
