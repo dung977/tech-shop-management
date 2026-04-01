@@ -11,18 +11,7 @@
     <title>@ViewData["Title"]</title>
 
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <script>
-        const currentRole = localStorage.getItem('Role');
-
-        if (currentRole) {
-           
-            if (currentRole === 'Customer') {
-                window.location.replace('/Home/Index');
-            } else {
-                window.location.replace('/Admin/Product');
-            }
-        }
-    </script>
+  
 </head>
 <body style="background-color: #f4f6f9;">
     

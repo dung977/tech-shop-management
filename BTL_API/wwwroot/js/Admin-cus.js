@@ -34,7 +34,6 @@ function renderCusTable() {
         let firstLetter = cus.FullName ? cus.FullName.charAt(0).toUpperCase() : '?';
         return `
         <tr>
-            <td class="ps-3"><input type="checkbox" class="form-check-input"></td>
             <td><strong>${cus.CustomerID}</strong></td>
             <td>
                 <div class="d-flex align-items-center">

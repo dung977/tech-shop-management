@@ -82,7 +82,6 @@ function renderTable() {
 
         htmlContent += `
             <tr>
-                <td class="ps-3"><input type="checkbox" class="form-check-input"></td>
                 <td><strong>${emp.EmployeeID}</strong></td>
                 <td>
                     <div class="d-flex align-items-center">
