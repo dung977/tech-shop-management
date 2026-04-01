@@ -39,8 +39,7 @@ def add_product():
         ProductID = "PRO_" + str(uuid.uuid4())[:6]
         ProductName = flask.request.json.get("ProductName")
         Brand = flask.request.json.get("Brand")
-        CategoryID = "CAT_" + str(uuid.uuid4())[:6]
-        Description = flask.request.json.get("Description")
+        CategoryID = flask.request.json.get("CategoryID")
         Image = flask.request.json.get("Image")
         Information = flask.request.json.get("Information")
         Status = flask.request.json.get("Status")
@@ -89,7 +88,9 @@ def update_product(ID):
 @product_bp.route('/delete/<ID>', methods=['DELETE'])
 def delete_product(ID):
     cursor = conn.cursor()
-    try:
+    try:       
+        query = "DELETE FROM Productvariant WHERE ProductID = ?"
+        cursor.execute(query, (ID,))
         query = "DELETE FROM Product WHERE ProductID = ?"
         cursor.execute(query, (ID,))
         conn.commit()
