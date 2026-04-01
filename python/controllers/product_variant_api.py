@@ -35,7 +35,7 @@ def add_variant():
     cursor = conn.cursor()
     try:
         ProductVariantID = "VAR_" + str(uuid.uuid4())[:6]
-        ProductID = "PRO_" + str(uuid.uuid4())[:6]
+        ProductID = flask.request.json.get("ProductID")
         Color = flask.request.json.get("Color")
         StockQuantity = flask.request.json.get("StockQuantity")
         SellingPrice = flask.request.json.get("SellingPrice")
