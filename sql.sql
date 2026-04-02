@@ -1,5 +1,4 @@
-﻿USE DuLieu;
-
+﻿USE ShopManagement;
 -- =========================================================================
 -- 0. XÓA BẢNG CŨ (Phải xóa bảng con trước, bảng cha sau để không lỗi khóa ngoại)
 -- =========================================================================
@@ -175,12 +174,12 @@ INSERT INTO Account (AccountID, Username, Password, Role, IsActive, EmployeeID, 
 ('ACC05', 'khachhang_linh', '123', 'Customer', 1, NULL, 'CUS02');  
 
 -- Data Product - ĐÃ XÓA DESCRIPTION
-INSERT INTO Product (ProductID, ProductName, Brand, Image, Information, Status, CategoryID) VALUES 
-('PROD01', N'iPhone 15 Pro Max', 'Apple', 'ip15pm.jpg', '{"CPU":"A17 Pro", "Screen":"6.7 inch OLED", "Camera":"48MP"}', 'Active', 'CAT01'),
-('PROD02', N'Samsung Galaxy S24 Ultra', 'Samsung', 's24u.jpg', '{"CPU":"Snapdragon 8 Gen 3", "Screen":"6.8 inch Dynamic AMOLED", "Camera":"200MP"}', 'Active', 'CAT01'),
-('PROD03', N'MacBook Pro 14 inch M3', 'Apple', 'macm3.jpg', '{"CPU":"Apple M3", "RAM":"16GB"}', 'Active', 'CAT02'),
-('PROD04', N'iPad Pro 11 inch M4', 'Apple', 'ipadm4.jpg', '{"CPU":"Apple M4", "Screen":"11 inch OLED"}', 'Active', 'CAT03'),
-('PROD05', N'AirPods Pro 2', 'Apple', 'airpods.jpg', '{"Type":"In-ear", "Battery":"6 hours"}', 'Active', 'CAT04');
+INSERT INTO Product (ProductID, ProductName, Brand, Image, Information,, CategoryID) VALUES 
+('PROD01', N'iPhone 15 Pro Max', 'Apple', 'ip15pm.jpg', '{"CPU":"A17 Pro", "Screen":"6.7 inch OLED", "Camera":"48MP"}', 'CAT01'),
+('PROD02', N'Samsung Galaxy S24 Ultra', 'Samsung', 's24u.jpg', '{"CPU":"Snapdragon 8 Gen 3", "Screen":"6.8 inch Dynamic AMOLED", "Camera":"200MP"}', 'CAT01'),
+('PROD03', N'MacBook Pro 14 inch M3', 'Apple', 'macm3.jpg', '{"CPU":"Apple M3", "RAM":"16GB"}', 'CAT02'),
+('PROD04', N'iPad Pro 11 inch M4', 'Apple', 'ipadm4.jpg', '{"CPU":"Apple M4", "Screen":"11 inch OLED"}', 'CAT03'),
+('PROD05', N'AirPods Pro 2', 'Apple', 'airpods.jpg', '{"Type":"In-ear", "Battery":"6 hours"}', 'CAT04');
 
 -- Data ProductVariant - ĐÃ THÊM DESCRIPTION TỪ BẢNG PRODUCT SANG
 -- Data ProductVariant - ĐÃ XÓA CAPACITY
@@ -191,6 +190,7 @@ INSERT INTO ProductVariant (ProductVariantID, ProductID, Color, SellingPrice, St
 ('VAR04', 'PROD03', N'Silver', 40000000, 8, N'Laptop đồ họa'),
 ('VAR05', 'PROD05', N'Trắng', 5500000, 50, N'Tai nghe chống ồn');
 -- Data PurchaseOrder (Phiếu nhập)
+
 INSERT INTO PurchaseOrder (PurchaseOrderID, SupplierID, EmployeeID, Status) VALUES 
 ('PO01', 'SUP01', 'EMP03', 'Completed'),
 ('PO02', 'SUP02', 'EMP03', 'Completed'),
@@ -247,3 +247,70 @@ INSERT INTO Customer (CustomerID, FullName, Phone, Email, Address) VALUES
 ('CUS13', N'Trương Công Vinh', '0988999008', 'vinh.truong@gmail.com', N'Hà Đông, Hà Nội'),
 ('CUS14', N'Phan Thanh Bình', '0912999119', 'binh.pt@gmail.com', N'Tây Hồ, Hà Nội'),
 ('CUS15', N'Ngô Bảo Châu', '0913888220', 'chau.ngo@gmail.com', N'Hai Bà Trưng, Hà Nội');
+ALTER TABLE ProductVariant
+ADD Images NVARCHAR(MAX); -- Lưu mảng JSON: ["path/to/img1.jpg", "path/to/img2.jpg"]
+ALTER TABLE Product 
+DROP COLUMN Status;
+ALTER TABLE ProductVariant
+ADD Status VARCHAR(20) DEFAULT 'Active';
+INSERT INTO Product (ProductID, ProductName, Brand, Image, Information, CategoryID) 
+VALUES (
+    'PROD_a315', 
+    N'Laptop Acer Aspire 3', 
+    'Acer', 
+    'Acer_Aspire_3.jpg', 
+    N'{
+        "Màn hình": {
+            "Chất liệu tấm nền": "Tấm nền TFT",
+            "Kích thước màn hình": "15.6 inches",
+            "Công nghệ màn hình": "Công nghệ màn hình Acer ComfyView",
+            "Độ phân giải màn hình": "1920 x 1080 pixels (FullHD)"
+        },
+        "Âm thanh": {
+            "Công nghệ âm thanh": "Loa kép"
+        },
+        "Kích thước & Trọng lượng": {
+            "Chất liệu": "Vỏ nhựa",
+            "Kích thước": "Dài 363.4 mm - Rộng 250.5 mm - Dày 19.95 mm",
+            "Trọng lượng": "1.9 kg"
+        },
+        "Tính năng khác": {
+            "Webcam": "VGA Webcam",
+            "Hệ điều hành": "Windows 11 Home SL"
+        },
+        "Pin & công nghệ sạc": {
+            "Pin": "3-cell Li-ion, 36 Wh"
+        },
+        "Cổng kết nối": {
+            "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac",
+            "Bluetooth": "v5.0",
+            "Cổng giao tiếp": "2 x USB 3.2, HDMI, Jack tai nghe 3.5 mm, LAN (RJ45), USB 2.0"
+        }
+    }', 
+    'CAT02'
+);
+select * from ProductVariant;
+INSERT INTO ProductVariant (ProductVariantID, ProductID, Color, SellingPrice, StockQuantity, Description, IsDeleted, Images, Status) 
+VALUES (
+    'VAR06', 
+    'PROD_a315', 
+    N'Đen', 
+    6500000, 
+    15, 
+   
+    N'{
+        "Bộ xử lý & Đồ họa": {
+            "Loại card đồ họa": "NVIDIA GeForce MX330 2 GB",
+            "Loại CPU": "Intel Core i5 Ice Lake - 1035G1"
+        },
+        "Bộ nhớ RAM, Ổ cứng": {
+            "Dung lượng RAM": "8GB",
+            "Loại RAM": "DDR4 2400 MHz",
+            "Số khe ram": "DDR4 (On board 4GB + 1 khe 4GB), Hỗ trợ tối đa 20GB",
+            "Ổ cứng": "512 GB SSD NVMe PCIe, Hỗ trợ khe cắm HDD SATA (nâng cấp tối đa 2TB)"
+        }
+    }', 
+    0, 
+    'Acer_Aspire_3.jpg',
+    'Active'
+);
