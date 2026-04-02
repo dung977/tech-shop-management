@@ -26,7 +26,7 @@
 
     <div class="col-md-8 d-flex justify-content-end gap-2">
         <div class="input-group" style="max-width: 250px;">
-            <input id="emp_search_input" type="text" class="form-control" placeholder="Tìm tên, SĐT..." aria-label="Search">
+            <input id="emp_search_input" type="text" class="form-control" placeholder="Tìm tên, SĐT..." aria-label="Search" onkeyup="executeSearch()" onkeypress="if(event.key === 'Enter') executeSearch()">
             <button class="btn btn-outline-secondary bg-white text-muted" type="button">
                 <i class="fas fa-search"></i>
             </button>

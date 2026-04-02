@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // 2. HÀM TÌM KIẾM
 // ==========================================
 function executeSearch() {
-    let keyword = document.getElementById('searchInput').value;
+    let keyword = document.getElementById('emp_search_input').value;
     let roleFilter = document.getElementById('filterRole').value;
 
     fetch('http://127.0.0.1:5000/employees/search?keyword=' + keyword, {
