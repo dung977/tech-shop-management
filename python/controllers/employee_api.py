@@ -1,6 +1,6 @@
 import flask
 import uuid
-from db_config import conn, get_json_results, generate_new_id
+from db_config import get_connection, get_json_results
 # BẮT BUỘC THÊM DÒNG NÀY ĐỂ BĂM MẬT KHẨU
 from werkzeug.security import generate_password_hash
 
@@ -9,14 +9,16 @@ employee_bp = flask.Blueprint('employee_bp', __name__)
 
 @employee_bp.route('/getall', methods=['GET'])
 def get_all_employees():
-    cursor = conn.cursor()
+    db_conn = get_connection()
+    cursor = db_conn.cursor()
     cursor.execute('select * from Employee where IsDeleted = 0')
     return flask.jsonify(get_json_results(cursor)), 200
 
 
 @employee_bp.route('/<id>', methods=['GET'])
 def get_employee(id):
-    cursor = conn.cursor()
+    db_conn = get_connection()
+    cursor = db_conn.cursor()
     # SỬA LỖI: Đổi chữ 'where' thứ hai thành 'and'
     cursor.execute('select * from Employee where EmployeeID = ? and IsDeleted = 0', (id,))
     return flask.jsonify(get_json_results(cursor)), 200
@@ -36,6 +38,8 @@ def add_employee():
         email = flask.request.json.get("Email")
         role = flask.request.json.get("Role", "Employee")
 
+        db_conn = get_connection()
+        cursor = db_conn.cursor()
         cursor.execute("select AccountID from Account where Username = ?", (username,))
         if cursor.fetchone():
             return flask.jsonify({"mess": "Username already exists"}), 400
@@ -59,14 +63,14 @@ def add_employee():
         sql_account = "insert into Account(AccountID, Username, Password, Role, IsActive, EmployeeID, IsDeleted) values (?, ?, ?, ?, 1, ?, 0)"
         cursor.execute(sql_account, (account_id, username, hashed_password, role, employee_id))
 
-        conn.commit()
+        db_conn.commit()
         return flask.jsonify({
             "mess": "Add Successful",
             "EmployeeID": employee_id,
             "AccountID": account_id
         }), 200
     except Exception as e:
-        conn.rollback()
+        db_conn.rollback()
         return flask.jsonify({"error": str(e)}), 500
 
 
@@ -77,14 +81,15 @@ def update_employee(id):
         phone = flask.request.json.get("Phone")
         email = flask.request.json.get("Email")
         role = flask.request.json.get("Role", "Employee")
-        cursor = conn.cursor()
+        db_conn = get_connection()
+        cursor = db_conn.cursor()
         cursor.execute(
             "update Employee set FullName = ?, Phone = ?, Email = ?, Role = ? where IsDeleted = 0 and EmployeeID = ?",
             (full_name, phone, email, role, id))
-        conn.commit()
+        db_conn.commit()
         return flask.jsonify({"mess": "Update successful"}), 200
     except Exception as e:
-        conn.rollback()
+        db_conn.rollback()
         return flask.jsonify({"error": str(e)}), 500
 
 
@@ -92,13 +97,14 @@ def update_employee(id):
 def delete_employee(id):
     try:
         employee_id = id
-        cursor = conn.cursor()
+        db_conn = get_connection()
+        cursor = db_conn.cursor()
         cursor.execute("update Account set IsDeleted = 1 where EmployeeID = ?", (employee_id,))
         cursor.execute("update Employee set IsDeleted = 1 where EmployeeID = ?", (employee_id,))
-        conn.commit()
+        db_conn.commit()
         return flask.jsonify({"mess": "Delete successful"}), 200
     except Exception as e:
-        conn.rollback()
+        db_conn.rollback()
         return flask.jsonify({"error": str(e)}), 500
 
 
@@ -107,7 +113,8 @@ def delete_employee(id):
 def search_employees():
     try:
         keyword = flask.request.args.get('keyword', '')
-        cursor = conn.cursor()
+        db_conn = get_connection()
+        cursor = db_conn.cursor()
 
         # SỬA LỖI: Thêm cặp ngoặc ( ) để đóng gói các toán tử OR
         sql = """

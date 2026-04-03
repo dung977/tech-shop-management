@@ -1,13 +1,14 @@
 import flask
 import uuid
-from db_config import conn, get_json_results, generate_new_id
+from db_config import get_connection, get_json_results
 
 purchase_order_detail_bp = flask.Blueprint('purchase_order_detail_bp', __name__)
 
 
 @purchase_order_detail_bp.route('/getall', methods=['GET'])
 def get_all_purchase_order_detail():
-    cursor = conn.cursor()
+    db_conn = get_connection()
+    cursor = db_conn.cursor()
     try:
         cursor.execute("SELECT * FROM PurchaseOrderDetail")
         res = get_json_results(cursor)
@@ -21,7 +22,8 @@ def get_all_purchase_order_detail():
 
 @purchase_order_detail_bp.route('/add', methods=['POST'])
 def add_purchase_order_detail():
-    cursor = conn.cursor()
+    db_conn = get_connection()
+    cursor = db_conn.cursor()
     try:
         PurchaseOrderID = flask.request.json.get("PurchaseOrderID")
         PurchaseOrderDetailID = generate_new_id(cursor, "PurchaseOrderDetail", "PurchaseOrderDetailID", "POD")
@@ -45,7 +47,7 @@ def add_purchase_order_detail():
                 ProductVariantID, NumOrder, ImportPrice) VALUES(?, ?, ?, ?, ?)
                 """
         cursor.execute(query, (PurchaseOrderDetailID, PurchaseOrderID, ProductVariantID, NumOrder, ImportPrice))
-        conn.commit()
+        db_conn.commit()
         
         return flask.jsonify({"message": "Success!"}), 201
     except Exception as e:
@@ -54,7 +56,8 @@ def add_purchase_order_detail():
 
 @purchase_order_detail_bp.route('/update/<ID>', methods=['PUT'])
 def update_purchase_order_detail(ID):
-    cursor = conn.cursor()
+    db_conn = get_connection()
+    cursor = db_conn.cursor()
     try:
         PurchaseOrderID = flask.request.json.get("PurchaseOrderID")
         ProductVariantID = flask.request.json.get("ProductVariantID")
@@ -73,7 +76,7 @@ def update_purchase_order_detail(ID):
                 ImportPrice = ? WHERE PurchaseOrderDetailID = ?
                 """
         cursor.execute(query, (NumOrder, ImportPrice, ID))
-        conn.commit()
+        db_conn.commit()
         return flask.jsonify({"message": "Success!"}), 200
     except Exception as e:
         return flask.jsonify({"error": str(e)}), 500
@@ -81,11 +84,12 @@ def update_purchase_order_detail(ID):
 
 @purchase_order_detail_bp.route('/delete/<ID>', methods=['DELETE'])
 def delete_purchase_order_detail(ID):
-    cursor = conn.cursor()
+    db_conn = get_connection()
+    cursor = db_conn.cursor()
     try:
         query = "DELETE FROM PurchaseOrderDetail WHERE PurchaseOrderDetailID = ?"
         cursor.execute(query, (ID,))
-        conn.commit()
+        db_conn.commit()
         
         return flask.jsonify({"message": "Success!"}), 200
     except Exception as e:

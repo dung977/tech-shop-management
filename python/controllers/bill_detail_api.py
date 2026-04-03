@@ -1,24 +1,27 @@
 import flask
 import uuid
-from db_config import conn, get_json_results
+from db_config import get_connection, get_json_results
 
 bill_detail_bp = flask.Blueprint('bill_detail_bp', __name__)
 
 @bill_detail_bp.route('/getall', methods = ['GET'])
 def get_all_bill_details():
-    cursor = conn.cursor()
+    db_conn = get_connection()
+    cursor = db_conn.cursor()
     cursor.execute('select * from BillDetail')
     return flask.jsonify(get_json_results(cursor)), 200
 
 @bill_detail_bp.route('/get/<id>', methods = ['GET'])
 def get_bill_detail(id):
-    cursor = conn.cursor()
+    db_conn = get_connection()
+    cursor = db_conn.cursor()
     cursor.execute('select * from BillDetail where BillID = ?', (id,))
     return flask.jsonify(get_json_results(cursor)), 200
 
 @bill_detail_bp.route('/add', methods=['POST'])
 def add_bill_detail():
-    cursor = conn.cursor()
+    db_conn = get_connection()
+    cursor = db_conn.cursor()
     try:
         bd_id = "BD_" + str(uuid.uuid4())[:6]
         bill_id = flask.request.json.get("BillID")
@@ -39,10 +42,10 @@ def add_bill_detail():
         # 3. Cập nhật lại TotalPrice trong bảng Bill tổng
         cursor.execute("UPDATE Bill SET TotalPrice = TotalPrice + (? * ?) WHERE BillID=?", (price, num, bill_id))
 
-        conn.commit()
+        db_conn.commit()
         return flask.jsonify({"mess": "Thêm sản phẩm vào đơn thành công",
                               "BillDetailID": bd_id}), 200
     except Exception as e:
-        conn.rollback()
+        db_conn.rollback()
         return flask.jsonify({"error": str(e)}), 500
 

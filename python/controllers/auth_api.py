@@ -1,6 +1,6 @@
 import flask
 import uuid
-from db_config import conn, get_json_results, generate_new_id
+from db_config import get_connection, get_json_results
 from werkzeug.security import generate_password_hash, check_password_hash
 
 auth_bp = flask.Blueprint('auth_bp', __name__)
@@ -11,8 +11,8 @@ def login():
     try:
         user = flask.request.json.get("Username")
         pwd = flask.request.json.get("Password")
-
-        cursor = conn.cursor()
+        db_conn = get_connection()
+        cursor = db_conn.cursor()
         cursor.execute(
             "select AccountID, Role, EmployeeID, CustomerID, Password from Account where Username = ? AND IsActive = 1",
             (user,))
@@ -61,7 +61,8 @@ def register():
 
         hashed_password = generate_password_hash(password)
 
-        cursor = conn.cursor()
+        db_conn = get_connection()
+        cursor = db_conn.cursor()
         cursor.execute("select AccountID from Account where Username = ?", (username,))
         if cursor.fetchone():
             return flask.jsonify({"mess": "Username already exists"}), 400
@@ -80,7 +81,7 @@ def register():
         sql_account = "insert into account(AccountID, Username, Password, Role, IsActive, CustomerID) values (?, ?, ?, 'Customer', 1, ?)"
         cursor.execute(sql_account, (account_id, username, hashed_password, customer_id))
 
-        conn.commit()
+        db_conn.commit()
 
         return flask.jsonify({
             "mess": "Register Successful",
@@ -88,6 +89,6 @@ def register():
             "AccountID": account_id
         }), 200
     except Exception as e:
-        conn.rollback()
+        db_conn.rollback()
         print(e)
         return flask.jsonify({"mess": "Error system: " + str(e)}), 500

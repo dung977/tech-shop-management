@@ -1,12 +1,13 @@
 import flask
 import uuid
-from db_config import conn, get_json_results, generate_new_id
+from db_config import get_connection, get_json_results
 
 purchase_order_bp = flask.Blueprint('purchase_order-bp', __name__)
 
 @purchase_order_bp.route('/getall', methods=['GET'])
 def get_all_purchase_order():
-    cursor = conn.cursor()
+    db_conn = get_connection()
+    cursor = db_conn.cursor()
     try:
         cursor.execute("SELECT * FROM PurchaseOrder")
         res = get_json_results(cursor)
@@ -20,7 +21,8 @@ def get_all_purchase_order():
 
 @purchase_order_bp.route('/<ID>')
 def get_purchase_order_detail(ID):
-    cursor = conn.cursor()
+    db_conn = get_connection()
+    cursor = db_conn.cursor()
     try:
         query = """
                 SELECT * FROM PurchaseOrder po JOIN PurchaseOrderDetail pod 
@@ -39,7 +41,8 @@ def get_purchase_order_detail(ID):
 
 @purchase_order_bp.route('/add', methods=['POST'])
 def add_purchase_order():
-    cursor = conn.cursor()
+    db_conn = get_connection()
+    cursor = db_conn.cursor()
     try:
         PurchaseOrderID = generate_new_id(cursor, "PurchaseOrder", "PurchaseOrderID", "PO")
         Status = flask.request.json.get("Status")
@@ -60,7 +63,7 @@ def add_purchase_order():
                 VALUES(?, ?, ?, ?)
                 """
         cursor.execute(query, (PurchaseOrderID, SupplierID, EmployeeID, Status))
-        conn.commit()
+        db_conn.commit()
         
         return flask.jsonify({"message": "Success!"}), 201
     except Exception as e:
@@ -69,7 +72,8 @@ def add_purchase_order():
 
 @purchase_order_bp.route('/update/<ID>', methods=['PUT'])
 def update_purchase_order(ID):
-    cursor = conn.cursor()
+    db_conn = get_connection()
+    cursor = db_conn.cursor()
     try:
         Status = flask.request.json.get("Status")
         EmployeeID = flask.request.json.get("EmployeeID")
@@ -86,7 +90,7 @@ def update_purchase_order(ID):
                 WHERE PurchaseOrderID = ?
                 """
         cursor.execute(query, (SupplierID, EmployeeID, Status, ID))
-        conn.commit()
+        db_conn.commit()
         
         return flask.jsonify({"message": "Success!"}), 200
     except Exception as e:
@@ -95,13 +99,14 @@ def update_purchase_order(ID):
 
 @purchase_order_bp.route('/delete/<ID>', methods=['DELETE'])
 def delete_purchase_order(ID):
-    cursor = conn.cursor()
+    db_conn = get_connection()
+    cursor = db_conn.cursor()
     try:
         query = "DELETE FROM PurchaseOrderDetail WHERE PurchaseOrderID = ?"
         cursor.execute(query, (ID,))
         query = "DELETE FROM PurchaseOrder WHERE PurchaseOrderID = ?"
         cursor.execute(query, (ID,))
-        conn.commit()
+        db_conn.commit()
         
         return flask.jsonify({"message": "Success!"}), 200
     except Exception as e:
@@ -110,7 +115,8 @@ def delete_purchase_order(ID):
 
 @purchase_order_bp.route('/<ID>/confirm', methods=['POST'])
 def confirm_purchase_order(ID):
-    cursor = conn.cursor()
+    db_conn = get_connection()
+    cursor = db_conn.cursor()
     try:
         cursor.execute("SELECT Status FROM PurchaseOrder WHERE PurchaseOrderID = ?", (ID,))
         status_list = get_json_results(cursor)
@@ -128,20 +134,21 @@ def confirm_purchase_order(ID):
             WHERE pod.PurchaseOrderID = ?
             """
         cursor.execute(update_stock_query, (ID,))
-        conn.commit()
+        db_conn.commit()
     
         return flask.jsonify({"message": "Confirmed and stock updated successfully!"}), 200
     except Exception as e:
-        if conn:
-            conn.rollback()
+        if db_conn:
+            db_conn.rollback()
         return flask.jsonify({"error": str(e)}), 500
     finally:
-        if conn:
-            conn.close()
+        if db_conn:
+            db_conn.close()
 
 @purchase_order_bp.route('/<ID>/pay', methods=['POST'])
 def pay_purchase_order(ID):
-    cursor = conn.cursor()
+    db_conn = get_connection()
+    cursor = db_conn.cursor()
     try:
         cursor.execute("SELECT Status FROM PurchaseOrder WHERE PurchaseOrderID = ?", (ID,))
         status_list = get_json_results(cursor)
@@ -151,13 +158,13 @@ def pay_purchase_order(ID):
         if status_list[0]['Status'] == 'Completed':
             return flask.jsonify({"error": "This order has been payed before"}), 400
         cursor.execute("UPDATE PurchaseOrder SET Status = 'Completed' WHERE PurchaseOrderID = ?", (ID,))
-        conn.commit()
+        db_conn.commit()
         return flask.jsonify({"message": "Confirmed and stock updated successfully!"}), 200
     
     except Exception as e:
-        if conn:
-            conn.rollback()
+        if db_conn:
+            db_conn.rollback()
         return flask.jsonify({"error": str(e)}), 500
     finally:
-        if conn:
-            conn.close()
+        if db_conn:
+            db_conn.close()

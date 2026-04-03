@@ -1,12 +1,13 @@
 import flask
 import uuid
-from db_config import conn, get_json_results
+from db_config import get_connection, get_json_results
 
 category_bp = flask.Blueprint('category_bp', __name__)
 
 @category_bp.route('/getall', methods=['GET'])
 def get_all_category():
-    cursor = conn.cursor()
+    db_conn = get_connection()
+    cursor = db_conn.cursor()
     try:
         cursor.execute("SELECT * FROM Category")
         res = get_json_results(cursor)
@@ -20,7 +21,8 @@ def get_all_category():
 
 @category_bp.route('/<ID>', methods=['GET'])
 def get_category_by_id(ID):
-    cursor = conn.cursor()
+    db_conn = get_connection()
+    cursor = db_conn.cursor()
     try:
         query = "SELECT * FROM Category ct WHERE ct.CategoryID = ?"
         cursor.execute(query, (ID,))
@@ -35,7 +37,8 @@ def get_category_by_id(ID):
 
 @category_bp.route('/add', methods=['POST'])
 def add_categories():
-    cursor = conn.cursor()
+    db_conn = get_connection()
+    cursor = db_conn.cursor()
     try:
         CategoryID = "CAT_" + str(uuid.uuid4())[:6]
         Name = flask.request.json.get("Name")
@@ -44,7 +47,7 @@ def add_categories():
             return flask.jsonify({"message": "CategoryID already exists!"}), 400
         query = "INSERT INTO Category(CategoryID, Name) VALUES(?, ?)"
         cursor.execute(query, (CategoryID, Name))
-        conn.commit()
+        db_conn.commit()
         
         return flask.jsonify({"message": "Success!"}), 201
     except Exception as e:
@@ -53,12 +56,13 @@ def add_categories():
 
 @category_bp.route('/update/<ID>', methods=['PUT'])
 def update_category(ID):
-    cursor = conn.cursor()
+    db_conn = get_connection()
+    cursor = db_conn.cursor()
     try:
         Name = flask.request.json.get("Name")
         query = "UPDATE Category SET Name = ? WHERE CategoryID = ?"
         cursor.execute(query, (Name, ID))
-        conn.commit()
+        db_conn.commit()
         
         return flask.jsonify({"message": "Success!"}), 200
     except Exception as e:
@@ -67,11 +71,12 @@ def update_category(ID):
 
 @category_bp.route('/delete/<ID>', methods=['DELETE'])
 def delete_category(ID):
-    cursor = conn.cursor()
+    db_conn = get_connection()
+    cursor = db_conn.cursor()
     try:
         query = "DELETE FROM Category WHERE CategoryID = ?"
         cursor.execute(query, (ID,))
-        conn.commit()
+        db_conn.commit()
         return flask.jsonify({"message": "Success!"}), 200
     except Exception as e:
         return flask.jsonify({"error": str(e)}), 500
@@ -80,7 +85,8 @@ def delete_category(ID):
 def search_categories():
     try:
         keyword = flask.request.args.get('keyword', )
-        cursor = conn.cursor()
+        db_conn = get_connection()
+        cursor = db_conn.cursor()
         sql = "select * from Category where Name like ?"
         search_term = f"%{keyword}%"
         cursor.execute(sql, (search_term,))
@@ -90,7 +96,8 @@ def search_categories():
         
 @category_bp.route('/getall/products/<name>', methods=['GET'])
 def get_product_by_category(name):
-    cursor = conn.cursor()
+    db_conn = get_connection()
+    cursor = db_conn.cursor()
     try:
         query = """
                 SELECT * FROM Category ct 

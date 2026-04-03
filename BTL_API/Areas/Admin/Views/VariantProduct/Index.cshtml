@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "Quản lý Cấu hình & Biến thể";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml"; // Nhớ trỏ đúng file Layout Admin của mày
+}
+
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 style="color: #0a2551; font-weight: 600;">Danh sách Phiên bản (Biến thể)</h2>
+        <button class="btn btn-outline-secondary" onclick="window.history.back()">
+            <i class="fas fa-arrow-left"></i> Quay lại Danh sách SP
+        </button>
+    </div>
+
+    <div class="alert alert-info border-0 shadow-sm d-flex align-items-center">
+        <div id="parentProdImg" class="me-3"></div>
+        <div>
+            <strong>Đang quản lý cấu hình của dòng máy: </strong>
+            <span id="parentProductName" class="text-danger fs-5 fw-bold">Đang tải...</span>
+            <br />
+            <small class="text-muted">Mã Dòng Máy: <span id="parentProductIdDisplay" class="fw-bold"></span></small>
+        </div>
+    </div>
+
+    <div class="card mb-4 shadow-sm border-0">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 text-primary"><i class="fas fa-list"></i> Các phiên bản hiện có</h5>
+            <button class="btn btn-success"><i class="fas fa-plus"></i> Thêm phiên bản mới</button>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-hover align-middle mb-0">
+                <thead style="background-color: #f4f6f9; color: #0a2551;">
+                    <tr>
+                        <th width="15%">Mã Biến thể</th>
+                        <th width="10%">Hình ảnh</th>
+                        <th width="15%">Màu sắc</th>
+                        <th width="15%">Giá bán</th>
+                        <th width="10%" class="text-center">Tồn kho</th>
+                        <th width="15%" class="text-center">Trạng thái</th>
+                        <th width="20%" class="text-center">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody id="variantTableBody">
+                    <tr><td colspan="7" class="text-center py-4 text-muted">Đang tải dữ liệu...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="fullSpecsModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header" style="background-color: #1b45cf; color: white;">
+                <h5 class="modal-title"><i class="fas fa-info-circle me-2"></i>Chi tiết Phiên bản</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body bg-light" id="fullSpecsBody">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Admin-variant.js" asp-append-version="true"></script>
+}

@@ -1,12 +1,13 @@
 import flask
 import uuid
-from db_config import conn, get_json_results
+from db_config import get_connection, get_json_results
 
 report_bp = flask.Blueprint('report_bp', __name__)
 
 @report_bp.route('/revenue', methods=['GET'])
 def report_revenue():
-    cursor = conn.cursor()
+    db_conn = get_connection()
+    cursor = db_conn.cursor()
     cursor.execute("SELECT SUM(TotalPrice) FROM Bill WHERE   Status = 'Completed'")
     rev = cursor.fetchone()[0]
     if rev is None:
@@ -17,7 +18,8 @@ def report_revenue():
 @report_bp.route('/top-products', methods=['GET'])
 def top_products():
     try:
-        cursor = conn.cursor()
+        db_conn = get_connection()
+        cursor = db_conn.cursor()
 
         # SỬA LỖI: Đã xóa pv.Capacity ra khỏi SELECT và GROUP BY
         sql = """
