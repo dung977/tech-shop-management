@@ -24,7 +24,7 @@
     <div class="card mb-4 shadow-sm border-0">
         <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
             <h5 class="mb-0 text-primary"><i class="fas fa-list"></i> Các phiên bản hiện có</h5>
-            <button class="btn btn-success"><i class="fas fa-plus"></i> Thêm phiên bản mới</button>
+            <button class="btn btn-success" onclick="openAddVariantModal()"><i class="fas fa-plus"></i> Thêm phiên bản mới</button>
         </div>
         <div class="card-body p-0">
             <table class="table table-hover align-middle mb-0">
@@ -59,7 +59,61 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="variantEditModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-success text-white" id="v_ModalHeader">
+                <h5 class="modal-title" id="v_ModalTitle">Thêm Biến Thể Mới</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="variantForm">
+                    <input type="hidden" id="v_ProductVariantID">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Màu sắc</label>
+                            <input type="text" class="form-control" name="Color" id="v_Color" placeholder="VD: Space Gray" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Trạng thái</label>
+                            <select class="form-select" name="Status" id="v_Status">
+                                <option value="New">Mới (New)</option>
+                                <option value="Like New">Like New</option>
+                                <option value="Old">Cũ</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Giá bán (VNĐ)</label>
+                            <input type="number" class="form-control" name="SellingPrice" id="v_SellingPrice" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Số lượng tồn kho</label>
+                            <input type="number" class="form-control" name="StockQuantity" id="v_StockQuantity" required>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label fw-bold text-primary">Hình ảnh biến thể (Link đơn)</label>
+                            <input type="text" class="form-control" name="Image" id="v_Image" placeholder="https://...">
+                        </div>
 
+                        <div class="col-12 mt-4">
+                            <div class="p-3 rounded border bg-light shadow-sm">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <h6 class="fw-bold mb-0">Cấu hình riêng (Dung lượng, RAM...)</h6>
+                                    <button type="button" class="btn btn-sm btn-outline-success" onclick="addVDescRow()">+ Thêm dòng</button>
+                                </div>
+                                <div id="v_DynamicDescArea" class="row g-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-success px-4" onclick="submitVariant()">Lưu thông tin</button>
+            </div>
+        </div>
+    </div>
+</div>
 @section Scripts {
     <script src="~/js/Admin-variant.js" asp-append-version="true"></script>
 }

@@ -68,8 +68,9 @@
     </div>
 </div>
 
-@* @await Html.PartialAsync("_AddProductModal") *@ 
-@* @await Html.PartialAsync("_EditProductModal") *@
+
+
+@await Html.PartialAsync("_EditProductModal")
 @await Html.PartialAsync("_VariantModal")
 @section Scripts {
     <script src="~/js/Admin-prod.js" asp-append-version="true"></script>

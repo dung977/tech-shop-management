@@ -86,8 +86,12 @@ function renderVariantTable(variants) {
             <td class="text-center"><span class="badge ${statusBadge} px-3 py-1 rounded-pill">${v.Status || 'New'}</span></td>
             <td class="text-center">
                 ${btnView}
-                <button class="btn btn-sm btn-light text-warning me-1" title="Sửa"><i class="fas fa-edit"></i></button>
-                <button class="btn btn-sm btn-light text-danger" title="Xóa"><i class="fas fa-trash-alt"></i></button>
+                <button class="btn btn-sm btn-light text-warning me-1" title="Sửa" onclick="editVariant('${v.ProductVariantID}')">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-light text-danger" title="Xóa" onclick="deleteVariant('${v.ProductVariantID}', '${currentProductId}')">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
             </td>
         </tr>`;
     }).join('');
@@ -165,4 +169,142 @@ function viewMergedSpecs(variant) {
 
     document.getElementById('fullSpecsBody').innerHTML = html;
     new bootstrap.Modal(document.getElementById('fullSpecsModal')).show();
+}
+// 1. Mở Modal và load danh sách
+function openAddVariantModal() {
+    // 1. Reset form về trạng thái Thêm mới
+    const form = document.getElementById('variantForm');
+    if (form) form.reset();
+
+    document.getElementById('v_ProductVariantID').value = "";
+    document.getElementById('v_DynamicDescArea').innerHTML = ""; // Xóa các dòng thông số cũ
+
+    // 2. Cập nhật giao diện Modal
+    document.getElementById('v_ModalTitle').innerText = "Thêm Biến Thể Mới";
+    document.getElementById('v_ModalHeader').className = "modal-header bg-success text-white";
+
+    // 3. Hiện Modal (Dùng ID đúng trong Index.cshtml của ông)
+    new bootstrap.Modal(document.getElementById('variantEditModal')).show();
+}
+
+// 2. Load danh sách biến thể từ API
+function loadVariants(productId) {
+    fetch(`http://127.0.0.1:5000/products/${productId}/variants`)
+        .then(res => res.json())
+        .then(data => {
+            const tbody = document.getElementById('variantTableBody');
+            tbody.innerHTML = data.map(v => `
+                <tr>
+                    <td><img src="${v.Image}" width="30" class="me-2">${v.Color}</td>
+                    <td>${Number(v.SellingPrice).toLocaleString()}đ</td>
+                    <td>${v.StockQuantity}</td>
+                    <td class="text-end">
+                        <button class="btn btn-sm btn-outline-warning" onclick="editVariant('${v.ProductVariantID}')"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteVariant('${v.ProductVariantID}', '${v.ProductID}')"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        });
+}
+
+// 3. Thêm thông số riêng (Description)
+function addVariantDescField(key = "", val = "") {
+    const container = document.getElementById('v_DynamicDescArea');
+    const id = Date.now() + Math.random();
+    container.insertAdjacentHTML('beforeend', `
+        <div class="input-group input-group-sm mb-1 v-desc-row" id="v-row-${id}">
+            <input type="text" class="form-control v-key" placeholder="Tên" value="${key}">
+            <input type="text" class="form-control v-val" placeholder="Giá trị" value="${val}">
+            <button class="btn btn-outline-danger" type="button" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></button>
+        </div>
+    `);
+}
+
+// 4. Lưu (Cả Add và Update)
+function submitVariant() {
+    const variantId = document.getElementById('v_ProductVariantID').value;
+
+    // 1. Thu thập dữ liệu cơ bản
+    let payload = {
+        ProductID: currentProductId, // Lấy từ biến global đầu file
+        Color: document.getElementById('v_Color').value,
+        SellingPrice: document.getElementById('v_SellingPrice').value,
+        StockQuantity: document.getElementById('v_StockQuantity').value,
+        Image: document.getElementById('v_Image').value,
+        Status: document.getElementById('v_Status').value
+    };
+
+    // 2. Thu thập các thông số kỹ thuật riêng (Dung lượng, v.v.)
+    document.querySelectorAll('.v-desc-row').forEach(row => {
+        const k = row.querySelector('.v-key').value.trim();
+        const v = row.querySelector('.v-val').value.trim();
+        if (k) payload[k] = v;
+    });
+
+    const url = variantId ? `http://127.0.0.1:5000/variants/update/${variantId}` : `http://127.0.0.1:5000/variants/add`;
+    const method = variantId ? 'PUT' : 'POST';
+
+    fetch(url, {
+        method: method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    })
+        .then(res => res.json())
+        .then(data => {
+            alert("Lưu biến thể thành công!");
+            location.reload(); // Load lại trang để cập nhật bảng
+        })
+        .catch(err => alert("Lỗi khi lưu: " + err.message));
+}
+
+// 5. Đổ dữ liệu cũ lên form để Sửa
+function editVariant(variantId) {
+    fetch(`http://127.0.0.1:5000/variants/${variantId}`)
+        .then(res => res.json())
+        .then(v => {
+            // Đổ dữ liệu vào các ô input
+            document.getElementById('v_ProductVariantID').value = v.ProductVariantID;
+            document.getElementById('v_Color').value = v.Color || "";
+            document.getElementById('v_SellingPrice').value = v.SellingPrice || 0;
+            document.getElementById('v_StockQuantity').value = v.StockQuantity || 0;
+            document.getElementById('v_Image').value = v.Image || "";
+            document.getElementById('v_Status').value = v.Status || "New";
+
+            // Đổ phần thông số kỹ thuật riêng (Description)
+            const container = document.getElementById('v_DynamicDescArea');
+            container.innerHTML = '';
+
+            const excluded = ['ProductVariantID', 'ProductID', 'Color', 'SellingPrice', 'StockQuantity', 'Image', 'Status', 'IsDeleted', 'Description'];
+            Object.keys(v).forEach(key => {
+                if (!excluded.includes(key) && v[key] !== null) {
+                    addVariantDescField(key, v[key]);
+                }
+            });
+
+            // Cập nhật tiêu đề Modal thành màu vàng cho đúng tính chất "Sửa"
+            document.getElementById('v_ModalTitle').innerText = "Chỉnh Sửa Biến Thể";
+            document.getElementById('v_ModalHeader').className = "modal-header bg-warning text-dark";
+
+            new bootstrap.Modal(document.getElementById('variantEditModal')).show();
+        })
+        .catch(err => alert("Lỗi tải dữ liệu biến thể: " + err.message));
+}
+
+// 6. Xóa
+function deleteVariant(variantId, productId) {
+    if (confirm("Xóa biến thể này?")) {
+        fetch(`http://127.0.0.1:5000/variants/delete/${variantId}`, { method: 'PUT' })
+            .then(() => {
+                alert("Đã xóa!");
+                loadVariants(productId);
+            });
+    }
+}
+
+function resetVariantForm() {
+    document.getElementById('v_ProductVariantID').value = "";
+    document.getElementById('variantForm').reset();
+    document.getElementById('v_DynamicDescArea').innerHTML = "";
+    document.getElementById('variantFormTitle').innerText = "Thêm Biến Thể Mới";
+    document.getElementById('btnResetVariant').classList.add('d-none');
 }

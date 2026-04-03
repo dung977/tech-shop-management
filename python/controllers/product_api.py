@@ -153,23 +153,19 @@ def update_product(ID):
         return flask.jsonify({"error": str(e)}), 500
 
 
-@product_bp.route('/delete/<ID>', methods=['PUT', 'DELETE'])
+@product_bp.route('/delete/<ID>', methods=['DELETE'])
 def delete_product(ID):
     db_conn = get_connection()
     cursor = db_conn.cursor()
     try:
-
-        query_variant = "UPDATE ProductVariant SET IsDeleted = 1 WHERE ProductID = ?"
-        cursor.execute(query_variant, (ID,))
-
-
-        query_prod = "UPDATE Product SET IsDeleted = 1 WHERE ProductID = ?"
-        cursor.execute(query_prod, (ID,))
-
+        query = "DELETE FROM Productvariant WHERE ProductID = ?"
+        cursor.execute(query, (ID,))
+        query = "DELETE FROM Product WHERE ProductID = ?"
+        cursor.execute(query, (ID,))
         db_conn.commit()
+
         return flask.jsonify({"message": "Success!"}), 200
     except Exception as e:
-        db_conn.rollback()
         return flask.jsonify({"error": str(e)}), 500
 
 

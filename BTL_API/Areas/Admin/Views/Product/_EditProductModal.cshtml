@@ -1,0 +1,65 @@
+﻿<div class="modal fade" id="editProductModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg shadow-lg">
+        <div class="modal-content border-0">
+            <div class="modal-header text-white bg-warning">
+                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Chỉnh Sửa Sản Phẩm</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="editProductForm">
+                    <input type="hidden" name="ProductID" id="editProductID">
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <label class="form-label fw-bold">Tên sản phẩm</label>
+                            <input type="text" class="form-control" name="ProductName" id="editProductName" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Mã SP</label>
+                            <input type="text" class="form-control bg-light" id="editProductIDDisplay" disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Thương hiệu</label>
+                            <select class="form-select" name="Brand" id="editBrandSelect">
+                                <option value="Apple">Apple</option>
+                                <option value="Samsung">Samsung</option>
+                                <option value="Asus">Asus</option>
+                                <option value="Xiaomi">Xiaomi</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Danh mục</label>
+                            <select class="form-select" name="CategoryID" id="editCategorySelect">
+                                <option value="CAT8">Laptop</option>
+                                <option value="CAT5">Điện thoại</option>
+                                <option value="CAT1">Phụ kiện</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label fw-bold text-primary">Danh sách ảnh (JSON)</label>
+                            <textarea class="form-control" name="Images" id="editProductImages" rows="2"></textarea>
+                        </div>
+
+                        <div class="col-12 mt-4">
+                            <div class="p-3 rounded-3 border bg-light shadow-sm">
+                                <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
+                                    <h6 class="fw-bold text-dark mb-0"><i class="fas fa-microchip me-2 text-warning"></i>Thông số kỹ thuật</h6>
+                                    <button type="button" class="btn btn-sm btn-outline-warning" onclick="addEditSpecField()">
+                                        <i class="fas fa-plus"></i> Thêm trường khác
+                                    </button>
+                                </div>
+                                <div id="editDynamicSpecArea" class="row g-2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-warning px-5 fw-bold" onclick="submitUpdateProduct()">
+                    <i class="fas fa-save me-1"></i> Cập nhật
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
