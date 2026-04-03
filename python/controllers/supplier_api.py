@@ -1,6 +1,6 @@
 import flask
 import uuid
-from db_config import conn, get_json_results
+from db_config import conn, get_json_results, generate_new_id
 
 supplier_bp = flask.Blueprint('supplier_bp', __name__)
 
@@ -21,7 +21,7 @@ def get_all_supplier():
 def add_supplier():
     cursor = conn.cursor()
     try:
-        SupplierID = "SUP_" + str(uuid.uuid4())[:6]
+        SupplierID = generate_new_id(cursor, "Supplier", "SupplierID", "SUP")
         SupplierName = flask.request.json.get("SupplierName")
         Address = flask.request.json.get("Address")
         Phone = flask.request.json.get("Phone")

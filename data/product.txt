@@ -1,0 +1,8 @@
+ProductName,Brand,Image,Information,CategoryID
+a,a,https://cdn2.cellphones.com.vn/358x/media/catalog/product/l/a/laptop-acer-aspire-3-a315-57g-573f.png,Laptop Acer mượt mà,cat01
+b,b,https://cdn2.cellphones.com.vn/358x/media/catalog/product/_/0/_0004_20949_laptop_acer_aspire_3_a315_4_.jpg,Máy tính sinh viên,cat01
+c,c,https://cdn2.cellphones.com.vn/358x/media/catalog/product/_/0/_0002_20949_laptop_acer_aspire_3_a315_2_.jpg,Bản màu đen cá tính,cat02
+d,d,https://cdn2.cellphones.com.vn/358x/media/catalog/product/_/0/_0000_20949_laptop_acer_aspire_3_a315.jpg,Laptop văn phòng,cat03
+e,e,https://cdn2.cellphones.com.vn/358x/media/catalog/product/_/0/_0001_20949_laptop_acer_aspire_3_a315_1_.jpg,Khởi động siêu nhanh,cat03
+f,f,https://cdn2.cellphones.com.vn/358x/media/catalog/product/_/0/_0003_20949_laptop_acer_aspire_3_a315_3_.jpg,Màn hình Full HD,cat01
+g,g,https://cdn2.cellphones.com.vn/358x/media/catalog/product/_/0/_0003_20949_laptop_acer_aspaire_3_a315_3_.jpg,Laptop mỏng nhẹ,cat02

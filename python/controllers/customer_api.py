@@ -1,6 +1,6 @@
 import flask
 import uuid
-from db_config import conn, get_json_results
+from db_config import conn, get_json_results, generate_new_id
 
 customer_bp = flask.Blueprint('customer_bp', __name__)
 @customer_bp.route('/getall', methods=['GET'])
@@ -18,16 +18,15 @@ def get_customer(id):
 @customer_bp.route('/add', methods = ['POST'])
 def add_customer():
     try:
-        customer_id = "CUS_" + str(uuid.uuid4())[:6]
-        account_id = "ACC_" + str(uuid.uuid4())[:6]
+        cursor = conn.cursor()
+        customer_id = generate_new_id(cursor, "Customer", "CustomerID", "CUS")
+        account_id = generate_new_id(cursor, "Account", "AccountID", "ACC")
         username = flask.request.json.get("Username")
         password = flask.request.json.get("Password")
         fullname = flask.request.json.get("FullName")
         phone = flask.request.json.get("Phone")
         email = flask.request.json.get("Email")
         address = flask.request.json.get("Address")
-
-        cursor = conn.cursor()
         cursor.execute("select AccountID from Account where Username = ?", (username,))
         if cursor.fetchone():
             return flask.jsonify({"mess": "Username already exists"}), 400

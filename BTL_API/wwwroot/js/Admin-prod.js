@@ -46,30 +46,29 @@ function executeProdSearch() {
 // ==========================================
 // 3. HÀM VẼ BẢNG & XỬ LÝ NHIỀU ẢNH JSON
 // ==========================================
+// ==========================================
+// 3. HÀM VẼ BẢNG & XỬ LÝ NHIỀU ẢNH JSON
+// ==========================================
 function renderProdTable() {
     const tableBody = document.getElementById('productTableBody');
     let htmlContent = '';
 
-    // Kiểm tra nếu mảng trống
     if (!currentProdData || currentProdData.length === 0) {
-        // Cập nhật colspan thành 8 vì bảng của bạn giờ đã có 8 cột (thêm cột Thông số)
         tableBody.innerHTML = `<tr><td colspan="8" class="text-center text-muted py-4"><i>Không tìm thấy sản phẩm nào.</i></td></tr>`;
         document.querySelector('.pagination-prod').innerHTML = '';
         return;
     }
 
-    // Cắt mảng để phân trang
     let startIndex = (currentProdPage - 1) * prodRowsPerPage;
     let endIndex = startIndex + prodRowsPerPage;
     let paginatedData = currentProdData.slice(startIndex, endIndex);
 
-    // VÒNG LẶP
     paginatedData.forEach(prod => {
+        // Tạm thời ẩn badge Status đi vì bảng Product gốc không còn cột Status nữa
+        // (Status giờ nằm ở bảng ProductVariant)
 
-        let statusBadge = prod.Status === 'Active' ? 'bg-success' : 'bg-secondary';
-
-        // Gọi các hàm phụ dịch JSON 
-        let imagesHtml = renderImageJson(prod.Image);
+        // SỬA LỖI 1: Đổi prod.Image thành prod.Images (có s)
+        let imagesHtml = renderImageJson(prod.Images);
         let infoHtml = renderInformationJson(prod.Information);
 
         htmlContent += `
@@ -86,7 +85,7 @@ function renderProdTable() {
                 <td>${infoHtml}</td>
                 
                 <td class="text-center">
-                    <span class="badge ${statusBadge} rounded-pill px-3">${prod.Status || 'Active'}</span>
+                    <span class="badge bg-success rounded-pill px-3">Active</span>
                 </td>
                 <td class="text-center pe-3">
                     <button class="btn btn-sm btn-light text-info" title="Xem chi tiết" onclick="openVariantModal('${prod.ProductID}')"><i class="fas fa-eye"></i></button>
@@ -95,37 +94,39 @@ function renderProdTable() {
                 </td>
             </tr>
         `;
-    }); 
+    });
 
-    // Đổ dữ liệu ra HTML và gọi hàm vẽ phân trang
     tableBody.innerHTML = htmlContent;
     renderProdPagination();
 }
 
-
-
-// -- HÀM PHỤ: XỬ LÝ CHUỖI JSON ẢNH TỪ PYTHON TRẢ VỀ --
+// SỬA LỖI 2: Nâng cấp hàm xử lý ảnh để đọc được link Online
 function renderImageJson(imageJsonString) {
     if (!imageJsonString) return '<span class="text-muted small">No IMG</span>';
+
+    // Hàm phụ nhỏ: Kiểm tra xem có phải link HTTP online không
+    function getCorrectImageUrl(imgStr) {
+        if (imgStr.startsWith('http://') || imgStr.startsWith('https://')) {
+            return imgStr;
+        }
+        return `/img/${imgStr}`;
+    }
+
     try {
-        // Parse cái string JSON thành mảng JavaScript
         let imgArray = JSON.parse(imageJsonString);
         let html = '';
-
-        // Lấy 2 ảnh đầu tiên in ra thẻ <img>
         let maxDisplay = 2;
+
         for (let i = 0; i < imgArray.length && i < maxDisplay; i++) {
-            html += `<img src="/img/${imgArray[i]}" class="border rounded" style="width: 40px; height: 40px; object-fit: cover;">`;
+            html += `<img src="${getCorrectImageUrl(imgArray[i])}" class="border rounded" style="width: 40px; height: 40px; object-fit: cover;">`;
         }
 
-        // Nếu mảng có > 2 ảnh, in ra cái số +N
         if (imgArray.length > maxDisplay) {
             html += `<div class="bg-light text-muted border rounded d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-size: 12px; font-weight: bold;">+${imgArray.length - maxDisplay}</div>`;
         }
         return html;
     } catch (e) {
-        // Nếu chuỗi gửi xuống không phải JSON hợp lệ, in thẳng nó ra như 1 link bt
-        return `<img src="/img/${imageJsonString}" class="border rounded" style="width: 40px; height: 40px; object-fit: cover;">`;
+        return `<img src="${getCorrectImageUrl(imageJsonString)}" class="border rounded" style="width: 40px; height: 40px; object-fit: cover;">`;
     }
 }
 

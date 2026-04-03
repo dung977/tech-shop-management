@@ -1,6 +1,6 @@
 import flask
 import uuid
-from db_config import conn, get_json_results
+from db_config import conn, get_json_results, generate_new_id
 
 purchase_order_detail_bp = flask.Blueprint('purchase_order_detail_bp', __name__)
 
@@ -24,7 +24,7 @@ def add_purchase_order_detail():
     cursor = conn.cursor()
     try:
         PurchaseOrderID = flask.request.json.get("PurchaseOrderID")
-        PurchaseOrderDetailID = "POD_" + str(uuid.uuid4())[:6]
+        PurchaseOrderDetailID = generate_new_id(cursor, "PurchaseOrderDetail", "PurchaseOrderDetailID", "POD")
         NumOrder = flask.request.json.get("NumOrder")
         ProductVariantID = flask.request.json.get("ProductVariantID")
         ImportPrice = flask.request.json.get("ImportPrice")

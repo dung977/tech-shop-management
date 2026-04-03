@@ -1,6 +1,6 @@
 import flask
 import uuid
-from db_config import conn, get_json_results
+from db_config import conn, get_json_results, generate_new_id
 from werkzeug.security import generate_password_hash, check_password_hash
 
 auth_bp = flask.Blueprint('auth_bp', __name__)
@@ -11,6 +11,7 @@ def login():
     try:
         user = flask.request.json.get("Username")
         pwd = flask.request.json.get("Password")
+
         cursor = conn.cursor()
         cursor.execute(
             "select AccountID, Role, EmployeeID, CustomerID, Password from Account where Username = ? AND IsActive = 1",
@@ -18,19 +19,34 @@ def login():
         account = cursor.fetchone()
 
         if account:
-            db_hashed_password = account[4]
-            if check_password_hash(db_hashed_password, pwd):
+            account_id = account[0]
+            role = account[1]
+            db_password = account[4]
+
+            # (Hash của werkzeug thường bắt đầu bằng scrypt: hoặc pbkdf2:)
+            is_hashed = db_password.startswith('scrypt:') or db_password.startswith('pbkdf2:')
+
+            is_valid = False
+            if is_hashed:
+                is_valid = check_password_hash(db_password, pwd)
+            else:
+                is_valid = (db_password == pwd)
+                if is_valid:
+                    new_hashed_pwd = generate_password_hash(pwd)
+                    cursor.execute("UPDATE Account SET Password = ? WHERE AccountID = ?", (new_hashed_pwd, account_id))
+                    conn.commit()
+            if is_valid:
                 return flask.jsonify({
                     "mess": "Login Successful",
-                    "AccountID": account[0],
-                    "Role": account[1]
+                    "AccountID": account_id,
+                    "Role": role
                 }), 200
             else:
                 return flask.jsonify({"mess": "Sai mật khẩu"}), 401
         else:
             return flask.jsonify({"mess": "Tài khoản không tồn tại"}), 401
     except Exception as e:
-        return flask.jsonify({"mess": str(e)})
+        return flask.jsonify({"mess": str(e)}), 500
 
 
 @auth_bp.route('/register', methods=['POST'])
@@ -56,8 +72,8 @@ def register():
         if cursor.fetchone():
             return flask.jsonify({"mess": "Email already exists"}), 400
 
-        customer_id = "CUS_" + str(uuid.uuid4())[:6]
-        account_id = "ACC_" + str(uuid.uuid4())[:6]
+        customer_id = generate_new_id(cursor, "Customer", "CustomerID", "CUS")
+        account_id = generate_new_id(cursor, "Account", "AccountID", "ACC")
 
         sql_customer = "insert into customer(CustomerID, FullName, Phone, Email, Address) values (?, ?, ?, ?, ?)"
         cursor.execute(sql_customer, (customer_id, fullname, phone, email, address))

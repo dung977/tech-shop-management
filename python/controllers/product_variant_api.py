@@ -1,7 +1,7 @@
 import flask
 import uuid
 import json
-from db_config import conn, get_json_results
+from db_config import conn, get_json_results, generate_new_id
 
 variant_bp = flask.Blueprint('variant_bp', __name__)
 
@@ -70,7 +70,7 @@ def get_variant_by_id(ID):
 def add_variant():
     cursor = conn.cursor()
     try:
-        ProductVariantID = "VAR_" + str(uuid.uuid4())[:6]
+        ProductVariantID = generate_new_id(cursor, "ProductVariant", "ProductVariantID", "VAR")
         ProductID = flask.request.json.get("ProductID")
         Color = flask.request.json.get("Color")
         StockQuantity = flask.request.json.get("StockQuantity")
