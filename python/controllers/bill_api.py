@@ -1,6 +1,6 @@
 import flask
 import uuid
-from db_config import get_connection, get_json_results
+from db_config import get_connection, get_json_results, generate_new_id
 
 bill_bp = flask.Blueprint('bill_bp', __name__)
 @bill_bp.route('/getall', methods = ['GET'])
@@ -20,7 +20,8 @@ def get_bill(id):
 @bill_bp.route('/add', methods = ['POST'])
 def create_bill():
     try:
-        cursor = conn.cursor()
+        db_conn = get_connection()
+        cursor = db_conn.cursor()
         bill_id = generate_new_id(cursor, "Bill", "BillID", "BIL")
         cus_id = flask.request.json.get("CustomerID")
         emp_id = flask.request.json.get("EmployeeID")
@@ -45,7 +46,35 @@ def create_bill():
     except Exception as e:
         db_conn.rollback()
         return flask.jsonify({"error": str(e)}), 500
+@bill_bp.route('/bill-details/get/<BillID>', methods=['GET'])
+def get_bill_details(BillID):
+    db_conn = get_connection()
+    cursor = db_conn.cursor()
+    try:
+        # Truy vấn lấy toàn bộ chi tiết của Hóa đơn được chọn
+        query = "SELECT * FROM BillDetail WHERE BillID = ?"
+        cursor.execute(query, (BillID,))
+        details = get_json_results(cursor)
 
+        if not details:
+            cursor.close()
+            return flask.jsonify([]), 200
+
+        # Ép kiểu dữ liệu (Decimal sang Float) để JSON không bị lỗi
+        for d in details:
+            if d.get('Price') is not None:
+                d['Price'] = float(d['Price'])
+            if d.get('Num') is not None:
+                d['Num'] = int(d['Num'])
+
+        cursor.close()
+        return flask.jsonify(details), 200
+
+    except Exception as e:
+        if cursor: cursor.close()
+        import traceback
+        print(traceback.format_exc())
+        return flask.jsonify({"error": str(e)}), 500
 @bill_bp.route('/<id>/checkout', methods = ['POST'])
 def checkout_bill(id):
     try:

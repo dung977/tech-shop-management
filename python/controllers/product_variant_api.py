@@ -5,15 +5,21 @@ from db_config import get_connection, get_json_results, generate_new_id
 
 variant_bp = flask.Blueprint('variant_bp', __name__)
 
+
 @variant_bp.route('/getall', methods=['GET'])
 def get_all_variant():
     db_conn = get_connection()
     cursor = db_conn.cursor()
     try:
-        cursor.execute("SELECT * FROM ProductVariant")
+        query = """
+            SELECT pv.*, p.Images AS ProductImages 
+            FROM ProductVariant pv
+            LEFT JOIN Product p ON pv.ProductID = p.ProductID
+            WHERE pv.IsDeleted = 0
+        """
+        cursor.execute(query)
         variants = get_json_results(cursor)
 
-        # MẸO KIỂM TRA: In ra console để xem lấy được bao nhiêu dòng
         print(f"DEBUG: Lay duoc {len(variants) if variants else 0} variants")
 
         if not variants:
@@ -26,21 +32,40 @@ def get_all_variant():
                 v['SellingPrice'] = float(v['SellingPrice'])
             if v.get('StockQuantity') is not None:
                 v['StockQuantity'] = int(v['StockQuantity'])
+            v_img = v.get('Image')
+            # Kiểm tra nếu Image rỗng, null, hoặc mảng rỗng '[]'
+            if not v_img or str(v_img).strip() in ['', '[]']:
+                p_images_str = v.get('ProductImages')
+                if p_images_str:
+                    try:
+                        # Thử giải mã mảng JSON của Product
+                        p_images_list = flask.json.loads(p_images_str)
+                        if isinstance(p_images_list, list) and len(p_images_list) > 0:
+                            # Lấy tấm ảnh ĐẦU TIÊN của Product gán cho Variant
+                            v['Image'] = p_images_list[0]
+                        else:
+                            v['Image'] = p_images_str
+                    except Exception:
+                        # Nếu lỗi (không phải JSON), lấy nguyên chuỗi
+                        v['Image'] = p_images_str
+
+            # Xóa cột ProductImages thừa thãi đi để JSON trả về được sạch sẽ
+            if 'ProductImages' in v:
+                del v['ProductImages']
+            # =======================================================
 
             # Xử lý Description cực kỳ cẩn thận
             specs_str = v.get('Description')
             if specs_str:
                 try:
-                    # Chỉ giải mã nếu nó trông giống JSON (bắt đầu bằng { )
                     if specs_str.strip().startswith('{'):
                         specs_dict = flask.json.loads(specs_str)
                         if isinstance(specs_dict, dict):
                             for key, value in specs_dict.items():
                                 v[key] = value
                     else:
-                        # Nếu là text thuần (như "8GB 128GB"), cho vào một key tạm
                         v['Note'] = specs_str
-                except:
+                except Exception:
                     pass
 
             if 'Description' in v:
@@ -51,9 +76,8 @@ def get_all_variant():
 
     except Exception as e:
         if cursor: cursor.close()
-        # DÒNG NÀY SẼ GIÚP ÔNG BIẾT CHÍNH XÁC LỖI GÌ TRÊN TRÌNH DUYỆT
         import traceback
-        print(traceback.format_exc())  # In lỗi chi tiết ra terminal đen
+        print(traceback.format_exc())
         return flask.jsonify({"error": str(e), "detail": "Xem terminal Flask"}), 500
 
 @variant_bp.route('/<ID>', methods=['GET'])

@@ -1,6 +1,6 @@
 import flask
 import uuid
-from db_config import get_connection, get_json_results
+from db_config import get_connection, get_json_results, generate_new_id
 
 customer_bp = flask.Blueprint('customer_bp', __name__)
 @customer_bp.route('/getall', methods=['GET'])
@@ -20,7 +20,8 @@ def get_customer(id):
 @customer_bp.route('/add', methods = ['POST'])
 def add_customer():
     try:
-        cursor = conn.cursor()
+        db_conn = get_connection()
+        cursor = db_conn.cursor()
         customer_id = generate_new_id(cursor, "Customer", "CustomerID", "CUS")
         account_id = generate_new_id(cursor, "Account", "AccountID", "ACC")
         username = flask.request.json.get("Username")

@@ -1,6 +1,6 @@
 import flask
 import uuid
-from db_config import get_connection, get_json_results
+from db_config import get_connection, get_json_results, generate_new_id
 from werkzeug.security import generate_password_hash, check_password_hash
 
 auth_bp = flask.Blueprint('auth_bp', __name__)
@@ -34,7 +34,7 @@ def login():
                 if is_valid:
                     new_hashed_pwd = generate_password_hash(pwd)
                     cursor.execute("UPDATE Account SET Password = ? WHERE AccountID = ?", (new_hashed_pwd, account_id))
-                    conn.commit()
+                    db_conn.commit()
             if is_valid:
                 return flask.jsonify({
                     "mess": "Login Successful",

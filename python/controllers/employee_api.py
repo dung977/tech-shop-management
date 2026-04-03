@@ -1,6 +1,6 @@
 import flask
 import uuid
-from db_config import get_connection, get_json_results
+from db_config import get_connection, get_json_results,generate_new_id
 # BẮT BUỘC THÊM DÒNG NÀY ĐỂ BĂM MẬT KHẨU
 from werkzeug.security import generate_password_hash
 
@@ -27,7 +27,8 @@ def get_employee(id):
 @employee_bp.route('/add', methods=['POST'])
 def add_employee():
     try:
-        cursor = conn.cursor()
+        db_conn = get_connection()
+        cursor = db_conn.cursor()
         employee_id = generate_new_id(cursor, "Employee", "EmployeeID", "EMP")
         account_id = generate_new_id(cursor, "Account", "AccountID", "ACC")
 
