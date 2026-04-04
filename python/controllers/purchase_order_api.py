@@ -1,6 +1,6 @@
 import flask
 import uuid
-from db_config import get_connection, get_json_results
+from db_config import get_connection, get_json_results, generate_new_id
 
 purchase_order_bp = flask.Blueprint('purchase_order-bp', __name__)
 
@@ -9,7 +9,16 @@ def get_all_purchase_order():
     db_conn = get_connection()
     cursor = db_conn.cursor()
     try:
-        cursor.execute("SELECT * FROM PurchaseOrder")
+        cursor.execute("""
+                       SELECT po.PurchaseOrderID,
+                              sp.SupplierName,
+                              em.FullName AS EmployeeName,
+                              po.OrderDate,
+                              po.Status
+                       FROM PurchaseOrder po
+                                JOIN Supplier sp ON po.SupplierID = sp.SupplierID
+                                JOIN EMPLOYEE em ON po.EmployeeID = em.EmployeeID
+                       """)
         res = get_json_results(cursor)
         if res:
             return flask.jsonify(res), 200
@@ -64,8 +73,11 @@ def add_purchase_order():
                 """
         cursor.execute(query, (PurchaseOrderID, SupplierID, EmployeeID, Status))
         db_conn.commit()
-        
-        return flask.jsonify({"message": "Success!"}), 201
+
+        return flask.jsonify({
+            "message": "Success!",
+            "PurchaseOrderID": PurchaseOrderID
+        }), 201
     except Exception as e:
         return flask.jsonify({"error": str(e)}), 500
 

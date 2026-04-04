@@ -57,11 +57,35 @@ function renderCusTable() {
 function renderCusPagination() {
     let totalPages = Math.ceil(currentCusData.length / cusRowsPerPage);
     let html = '';
-    for (let i = 1; i <= totalPages; i++) {
-        html += `<li class="page-item ${i === currentCusPage ? 'active' : ''}">
-                    <a class="page-link" href="#" onclick="changeCusPage(event, ${i})">${i}</a>
-                 </li>`;
+
+    // Nếu không có dữ liệu hoặc chỉ có 1 trang thì không cần hiện phân trang
+    if (totalPages <= 1) {
+        document.querySelector('.pagination').innerHTML = '';
+        return;
     }
+
+    // Nút "Trước" (Previous)
+    // Nếu đang ở trang 1 thì thêm class 'disabled' để không cho bấm
+    html += `
+        <li class="page-item ${currentCusPage === 1 ? 'disabled' : ''}">
+            <a class="page-link" href="#" onclick="changeCusPage(event, ${currentCusPage - 1})">Trước</a>
+        </li>`;
+
+    // Các nút số trang (1, 2, 3...)
+    for (let i = 1; i <= totalPages; i++) {
+        html += `
+            <li class="page-item ${i === currentCusPage ? 'active' : ''}">
+                <a class="page-link" href="#" onclick="changeCusPage(event, ${i})">${i}</a>
+            </li>`;
+    }
+
+    // Nút "Sau" (Next)
+    // Nếu đang ở trang cuối cùng thì thêm class 'disabled'
+    html += `
+        <li class="page-item ${currentCusPage === totalPages ? 'disabled' : ''}">
+            <a class="page-link" href="#" onclick="changeCusPage(event, ${currentCusPage + 1})">Sau</a>
+        </li>`;
+
     document.querySelector('.pagination').innerHTML = html;
 }
 

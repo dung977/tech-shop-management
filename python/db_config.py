@@ -2,7 +2,7 @@ import pyodbc
 
 con_str = (
     "Driver={SQL Server};" 
-    "Server=localhost\\SQLEXPRESS;"
+    "Server=.\\SQLEXPRESS;"
     "Database=ShopManagement;"
     "Trusted_Connection=yes;"
     "MARS_Connection=Yes;"

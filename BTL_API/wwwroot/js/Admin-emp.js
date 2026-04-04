@@ -23,7 +23,7 @@ function executeSearch() {
     })
         .then(response => {
             if (!response.ok) {
-                // NẾU PYTHON LỖI 400/500, DỊCH LỖI ĐỂ TRUYỀN XUỐNG CATCH
+               
                 return response.json().then(err => { throw new Error(err.error || "Lỗi Server Python") });
             }
             return response.json();

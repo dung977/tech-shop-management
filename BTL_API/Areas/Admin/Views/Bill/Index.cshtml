@@ -113,3 +113,20 @@
 @section Scripts {
     <script src="~/js/Admin-bill.js" asp-append-version="true"></script>
 }
+<style>
+    .pagination .page-link {
+        color: #1b45cf;
+        border: 1px solid #dee2e6;
+        padding: 8px 16px;
+    }
+    .pagination .page-item.active .page-link {
+        background-color: #1b45cf;
+        border-color: #1b45cf;
+        color: white;
+    }
+    .pagination .page-item.disabled .page-link {
+        color: #6c757d;
+        pointer-events: none;
+        background-color: #f8f9fa;
+    }
+</style>

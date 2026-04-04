@@ -121,3 +121,17 @@ CREATE TABLE BillDetail (
     Price DECIMAL(18,2) NOT NULL
 );
 GO
+SELECT 
+    ProductID, 
+    ProductName, 
+    Information AS [JSON_Thong_So_Chung]
+FROM Product;
+select * from Product where ProductID = 'PROD464';
+SELECT 
+    ProductVariantID, 
+    ProductID, 
+    Description AS [JSON_Thong_So_Rieng]
+FROM ProductVariant;
+SELECT ProductID, Color, SellingPrice, Image, Description 
+FROM ProductVariant 
+WHERE ProductVariantID = 'VAR142';

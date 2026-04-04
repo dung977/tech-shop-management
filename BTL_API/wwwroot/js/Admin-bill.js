@@ -157,11 +157,32 @@ function cancelBill(billId) {
 function renderBillPagination() {
     let totalPages = Math.ceil(currentBillData.length / billRowsPerPage);
     let html = '';
-    for (let i = 1; i <= totalPages; i++) {
-        html += `<li class="page-item ${i === currentBillPage ? 'active' : ''}">
-                    <a class="page-link" href="#" onclick="changeBillPage(event, ${i})">${i}</a>
-                 </li>`;
+
+    if (totalPages <= 1) {
+        document.getElementById('billPagination').innerHTML = '';
+        return;
     }
+
+    // Nút "Trước"
+    html += `
+        <li class="page-item ${currentBillPage === 1 ? 'disabled' : ''}">
+            <a class="page-link" href="#" onclick="changeBillPage(event, ${currentBillPage - 1})">Trước</a>
+        </li>`;
+
+    // Các nút số trang
+    for (let i = 1; i <= totalPages; i++) {
+        html += `
+            <li class="page-item ${i === currentBillPage ? 'active' : ''}">
+                <a class="page-link" href="#" onclick="changeBillPage(event, i)">${i}</a>
+            </li>`;
+    }
+
+    // Nút "Sau"
+    html += `
+        <li class="page-item ${currentBillPage === totalPages ? 'disabled' : ''}">
+            <a class="page-link" href="#" onclick="changeBillPage(event, ${currentBillPage + 1})">Sau</a>
+        </li>`;
+
     document.getElementById('billPagination').innerHTML = html;
 }
 

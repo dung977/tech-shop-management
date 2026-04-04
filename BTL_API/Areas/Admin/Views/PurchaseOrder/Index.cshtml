@@ -38,7 +38,7 @@
             <i class="fas fa-file-export"></i>
         </button>
         
-        <button class="btn text-white" title="Tạo phiếu nhập mới" style="background-color: #1b45cf; border: none;">
+        <button class="btn text-white" title="Tạo phiếu nhập mới" style="background-color: #1b45cf; border: none;" onclick="openAddOrderModal()">
             <i class="fas fa-plus-circle fa-lg"></i> Nhập hàng
         </button>
     </div>
@@ -59,64 +59,10 @@
                         <th class="text-center pe-3" width="15%">Hành động</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="purchaseOrderTableBody">
                     <tr>
-                        <td class="ps-3"><input type="checkbox" class="form-check-input"></td>
-                        <td><strong>PO01</strong></td>
-                        <td>Apple Việt Nam</td>
-                        <td>Lê Văn C (Thủ kho)</td>
-                        <td>25/03/2026</td>
-                        <td class="text-center">
-                            <span class="badge bg-success rounded-pill px-3 py-2">Completed</span>
-                        </td>
-                        <td class="text-center pe-3">
-                            <button class="btn btn-sm btn-light text-primary" title="Xem chi tiết"><i class="fas fa-eye"></i></button>
-                            <button class="btn btn-sm btn-light text-primary" title="In phiếu"><i class="fas fa-print"></i></button>
-                        </td>
-                    </tr>
-                    
-                    <tr>
-                        <td class="ps-3"><input type="checkbox" class="form-check-input"></td>
-                        <td><strong>PO03</strong></td>
-                        <td>Synnex FPT</td>
-                        <td>Lê Văn C (Thủ kho)</td>
-                        <td>26/03/2026</td>
-                        <td class="text-center">
-                            <span class="badge bg-warning text-dark rounded-pill px-3 py-2">Pending Payment</span>
-                        </td>
-                        <td class="text-center pe-3">
-                            <button class="btn btn-sm btn-light text-primary" title="Xem chi tiết"><i class="fas fa-eye"></i></button>
-                            <button class="btn btn-sm btn-light text-primary" title="In phiếu"><i class="fas fa-print"></i></button>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="ps-3"><input type="checkbox" class="form-check-input"></td>
-                        <td><strong>PO04</strong></td>
-                        <td>Apple Việt Nam</td>
-                        <td>Trần Văn A (Quản lý)</td>
-                        <td>26/03/2026</td>
-                        <td class="text-center">
-                            <span class="badge bg-primary rounded-pill px-3 py-2">Shipping</span>
-                        </td>
-                        <td class="text-center pe-3">
-                            <button class="btn btn-sm btn-light text-primary" title="Xem chi tiết"><i class="fas fa-eye"></i></button>
-                            <button class="btn btn-sm btn-light text-primary" title="In phiếu"><i class="fas fa-print"></i></button>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="ps-3"><input type="checkbox" class="form-check-input"></td>
-                        <td><strong>PO05</strong></td>
-                        <td>Digiworld</td>
-                        <td>Lê Văn C (Thủ kho)</td>
-                        <td>26/03/2026</td>
-                        <td class="text-center">
-                            <span class="badge bg-secondary rounded-pill px-3 py-2">Draft</span>
-                        </td>
-                        <td class="text-center pe-3">
-                            <button class="btn btn-sm btn-light text-primary" title="Xem chi tiết"><i class="fas fa-eye"></i></button>
-                            <button class="btn btn-sm btn-light text-danger" title="Xóa nháp"><i class="fas fa-trash"></i></button>
+                        <td colspan="7" class="text-center text-muted py-4">
+                            <i class="fas fa-spinner fa-spin me-2"></i> Đang tải dữ liệu...
                         </td>
                     </tr>
                 </tbody>
@@ -132,3 +78,68 @@
         </ul>
     </div>
 </div>
+<div class="modal fade" id="addOrderModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title"><i class="fas fa-file-invoice me-2"></i>Tạo Phiếu Nhập Kho Mới</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="fw-bold form-label">Mã Nhà cung cấp (SupplierID)</label>
+                        <input type="text" class="form-control" id="addSupplierID" placeholder="VD: SUP1">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fw-bold form-label">Mã Người lập phiếu (EmployeeID)</label>
+                        <input type="text" class="form-control" id="addEmployeeID" placeholder="VD: EMP1">
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2 mt-4">
+                    <h6 class="fw-bold text-success mb-0"><i class="fas fa-boxes me-2"></i>Chi Tiết Sản Phẩm Nhập</h6>
+                    <button class="btn btn-sm btn-outline-success" onclick="addDetailRow()">
+                        <i class="fas fa-plus"></i> Thêm dòng sản phẩm
+                    </button>
+                </div>
+                
+                <div id="orderDetailArea">
+                </div>
+            </div>
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary px-5" onclick="submitFullOrder()">Lưu Phiếu & Chi Tiết</button>
+            </div>
+        </div>
+    </div>
+</div>
+// hien thi chi tiet don hang
+<div class="modal fade" id="detailOrderModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title"><i class="fas fa-list me-2"></i>Chi Tiết Phiếu Nhập: <span id="detailPoId"></span></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Mã CTHĐ</th>
+                            <th>Mã Biến thể (SP)</th>
+                            <th class="text-center">Số lượng</th>
+                            <th class="text-end">Giá nhập (VNĐ)</th>
+                            <th class="text-end">Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detailOrderTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/Admin-purchase.js" asp-append-version="true"></script>
+}
