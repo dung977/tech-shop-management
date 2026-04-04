@@ -22,7 +22,7 @@ def create_bill():
     try:
         db_conn = get_connection()
         cursor = db_conn.cursor()
-        bill_id = generate_new_id(cursor, "Bill", "BillID", "BIL")
+        bill_id = generate_new_id(cursor, "Bill", "BillID", "BILL")
         cus_id = flask.request.json.get("CustomerID")
         emp_id = flask.request.json.get("EmployeeID")
         payment_method = flask.request.json.get("PaymentMethod")
