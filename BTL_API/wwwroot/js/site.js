@@ -511,19 +511,57 @@ async function loadProductDetail(productId) {
                     <h1 class="detail-name">${escapeHtml(prod.ProductName)}</h1>
                     <div class="detail-price" id="detailPrice">${defaultVariant ? formatPrice(defaultVariant.SellingPrice) : 'Liên hệ'}</div>
 
-                    ${variantList.length > 0 ? `
-                    <div class="variant-selector">
-                        <div class="variant-label">Phiên bản</div>
-                        <div class="variant-options" id="variantOptions">
-                            ${variantList.map((v, i) => `
-                                <button class="variant-option ${i === 0 ? 'active' : ''} ${(v.StockQuantity || 0) <= 0 ? 'out-of-stock' : ''}"
-                                    data-idx="${i}"
-                                    ${(v.StockQuantity || 0) <= 0 ? 'title="Hết hàng"' : ''}>
-                                    ${escapeHtml(v.Color || 'Mặc định')}
-                                </button>
-                            `).join('')}
-                        </div>
-                    </div>` : ''}
+                    ${variantList.length > 0 ? (() => {
+                        // Group variants by version (Note field = Description)
+                        const versions = [];
+                        const versionMap = {};
+                        variantList.forEach((v, i) => {
+                            const ver = v.Note || v.Description || '';
+                            if (!versionMap[ver]) {
+                                versionMap[ver] = [];
+                                versions.push(ver);
+                            }
+                            versionMap[ver].push({ variant: v, idx: i });
+                        });
+                        const hasVersions = versions.length > 1 || (versions.length === 1 && versions[0] !== '');
+
+                        // Get colors for the first version
+                        const firstVersionVariants = versionMap[versions[0]] || [];
+                        const defaultVerColors = firstVersionVariants.map(item => ({
+                            color: item.variant.Color || 'Mặc định',
+                            idx: item.idx,
+                            stock: item.variant.StockQuantity || 0
+                        }));
+
+                        let html = '<div class="variant-selector">';
+                        if (hasVersions) {
+                            html += '<div class="variant-label">Phiên bản</div>';
+                            html += '<div class="variant-options" id="versionOptions">';
+                            html += versions.map((ver, vi) => {
+                                const verVariants = versionMap[ver];
+                                const allOutOfStock = verVariants.every(item => (item.variant.StockQuantity || 0) <= 0);
+                                return `<button class="variant-option ${vi === 0 ? 'active' : ''} ${allOutOfStock ? 'out-of-stock' : ''}"
+                                    data-version="${escapeHtml(ver)}"
+                                    ${allOutOfStock ? 'title="Hết hàng"' : ''}>
+                                    ${escapeHtml(ver || 'Mặc định')}
+                                </button>`;
+                            }).join('');
+                            html += '</div>';
+                        }
+                        // Color selector
+                        const showColors = defaultVerColors.length > 1 || !hasVersions;
+                        html += '<div class="variant-label" style="margin-top:.75rem">Màu sắc</div>';
+                        html += '<div class="variant-options" id="variantOptions">';
+                        html += defaultVerColors.map((c, ci) => `
+                            <button class="variant-option ${ci === 0 ? 'active' : ''} ${c.stock <= 0 ? 'out-of-stock' : ''}"
+                                data-idx="${c.idx}"
+                                ${c.stock <= 0 ? 'title="Hết hàng"' : ''}>
+                                ${escapeHtml(c.color)}
+                            </button>
+                        `).join('');
+                        html += '</div></div>';
+                        return html;
+                    })() : ''}
 
                     <div class="stock-info ${defaultVariant && defaultVariant.StockQuantity > 0 ? 'in-stock' : 'out-of-stock'}" id="stockInfo">
                         <i class="bi ${defaultVariant && defaultVariant.StockQuantity > 0 ? 'bi-check-circle-fill' : 'bi-x-circle-fill'}"></i>
@@ -546,11 +584,31 @@ async function loadProductDetail(productId) {
             </div>
         </div>`;
 
-        // Store variants for interaction
+        // Store variants and version map for interaction
         window._detailVariants = variantList;
         window._detailProduct = prod;
+        // Build version map
+        window._versionMap = {};
+        variantList.forEach((v, i) => {
+            const ver = v.Note || v.Description || '';
+            if (!window._versionMap[ver]) window._versionMap[ver] = [];
+            window._versionMap[ver].push({ variant: v, idx: i });
+        });
 
-        // Variant selection
+        // Version selection
+        const versionContainer = document.getElementById('versionOptions');
+        if (versionContainer) {
+            versionContainer.addEventListener('click', e => {
+                const btn = e.target.closest('.variant-option');
+                if (!btn || btn.classList.contains('out-of-stock')) return;
+                versionContainer.querySelectorAll('.variant-option').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const ver = btn.dataset.version;
+                updateColorOptions(ver);
+            });
+        }
+
+        // Variant color selection
         const optionsContainer = document.getElementById('variantOptions');
         if (optionsContainer) {
             optionsContainer.addEventListener('click', e => {
@@ -610,6 +668,35 @@ async function loadProductDetail(productId) {
     } catch (err) {
         console.error(err);
         container.innerHTML = '<p class="text-muted" style="text-align:center;padding:3rem">Không thể tải thông tin sản phẩm.</p>';
+    }
+}
+
+function updateColorOptions(version) {
+    const colorContainer = document.getElementById('variantOptions');
+    if (!colorContainer || !window._versionMap) return;
+    const items = window._versionMap[version] || [];
+    colorContainer.innerHTML = items.map((item, ci) => `
+        <button class="variant-option ${ci === 0 ? 'active' : ''} ${(item.variant.StockQuantity || 0) <= 0 ? 'out-of-stock' : ''}"
+            data-idx="${item.idx}"
+            ${(item.variant.StockQuantity || 0) <= 0 ? 'title="Hết hàng"' : ''}>
+            ${escapeHtml(item.variant.Color || 'Mặc định')}
+        </button>
+    `).join('');
+    // Re-attach click handler
+    colorContainer.addEventListener('click', e => {
+        const btn = e.target.closest('.variant-option');
+        if (!btn || btn.classList.contains('out-of-stock')) return;
+        colorContainer.querySelectorAll('.variant-option').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const idx = parseInt(btn.dataset.idx);
+        selectVariant(idx);
+    });
+    // Select first available variant in this version
+    const firstAvailable = items.find(item => (item.variant.StockQuantity || 0) > 0);
+    if (firstAvailable) {
+        selectVariant(firstAvailable.idx);
+    } else if (items.length > 0) {
+        selectVariant(items[0].idx);
     }
 }
 
@@ -1019,25 +1106,44 @@ async function loadOrdersPage() {
                 : (bill.Status || '').toLowerCase() === 'cancelled' ? 'Đã hủy'
                 : 'Đang xử lý';
             const dateStr = bill.DateOrder ? new Date(bill.DateOrder).toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '';
+            const payMethodText = (bill.PayMethod || '').toLowerCase() === 'transfer' ? 'Chuyển khoản' : 'Tiền mặt';
+            const itemCount = bill.details.reduce((s, d) => s + (d.Num || 0), 0);
 
             return `
             <div class="order-card">
                 <div class="order-card-header">
                     <div>
-                        <span class="order-id">${escapeHtml(bill.BillID)}</span>
+                        <span class="order-id">Đơn hàng #${escapeHtml(bill.BillID)}</span>
                         <span class="order-date" style="margin-left:.75rem">${dateStr}</span>
                     </div>
                     <span class="order-status ${statusClass}">${statusText}</span>
                 </div>
                 <div class="order-card-body">
-                    ${bill.details.map(d => `
-                    <div class="order-summary-item">
-                        <span class="item-name">${escapeHtml(d.ProductVariantID || '')}</span>
-                        <span class="item-qty">x${d.Num || 0}</span>
-                        <span class="item-price">${formatPrice((d.Price || 0) * (d.Num || 0))}</span>
-                    </div>`).join('')}
+                    ${bill.details.map(d => {
+                        const img = d.Image || PLACEHOLDER_IMG;
+                        const name = d.ProductName || d.ProductVariantID || '';
+                        const color = d.Color || '';
+                        const version = d.VariantDescription || '';
+                        const subtotal = (d.Price || 0) * (d.Num || 0);
+                        return `
+                        <div class="order-detail-item">
+                            <img class="order-detail-img" src="${escapeHtml(img)}" alt="" onerror="this.src='${PLACEHOLDER_IMG}'">
+                            <div class="order-detail-info">
+                                <div class="order-detail-name">${escapeHtml(name)}</div>
+                                <div class="order-detail-meta">${version ? escapeHtml(version) : ''}${version && color ? ' · ' : ''}${color ? escapeHtml(color) : ''}</div>
+                                <div class="order-detail-price">${formatPrice(d.Price || 0)} × ${d.Num || 0}</div>
+                            </div>
+                            <div class="order-detail-subtotal">${formatPrice(subtotal)}</div>
+                        </div>`;
+                    }).join('')}
                 </div>
-                <div class="order-total">Tổng: ${formatPrice(bill.TotalPrice || 0)}</div>
+                <div class="order-card-footer">
+                    <div class="order-footer-info">
+                        <span class="order-payment"><i class="bi bi-credit-card"></i> ${payMethodText}</span>
+                        <span class="order-item-count">${itemCount} sản phẩm</span>
+                    </div>
+                    <div class="order-total">Tổng: ${formatPrice(bill.TotalPrice || 0)}</div>
+                </div>
             </div>`;
         }).join('');
 
