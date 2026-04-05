@@ -75,8 +75,19 @@ def get_bill_details(BillID):
     db_conn = get_connection()
     cursor = db_conn.cursor()
     try:
-        # Truy vấn lấy toàn bộ chi tiết của Hóa đơn được chọn
-        query = "SELECT * FROM BillDetail WHERE BillID = ?"
+        # Truy vấn lấy toàn bộ chi tiết của Hóa đơn được chọn, JOIN thêm tên SP + màu + ảnh
+        query = """
+            SELECT 
+                bd.*, 
+                p.ProductName, 
+                pv.Color, 
+                pv.Image,
+                pv.Description AS VariantDescription
+            FROM BillDetail bd
+            LEFT JOIN ProductVariant pv ON bd.ProductVariantID = pv.ProductVariantID
+            LEFT JOIN Product p ON pv.ProductID = p.ProductID
+            WHERE bd.BillID = ?
+        """
         cursor.execute(query, (BillID,))
         details = get_json_results(cursor)
 

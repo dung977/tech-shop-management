@@ -21,7 +21,6 @@ def top_products():
         db_conn = get_connection()
         cursor = db_conn.cursor()
 
-        # SỬA LỖI: Đã xóa pv.Capacity ra khỏi SELECT và GROUP BY
         sql = """
             SELECT TOP 10 
                 p.ProductName, pv.ProductID, pv.Color, SUM(bd.Num) as TotalSold
@@ -31,6 +30,33 @@ def top_products():
             INNER JOIN Product p ON pv.ProductID = p.ProductID
             WHERE b.Status = 'Completed'
             GROUP BY p.ProductName, pv.ProductID, pv.Color
+            ORDER BY TotalSold DESC
+        """
+        cursor.execute(sql)
+        return flask.jsonify(get_json_results(cursor)), 200
+
+    except Exception as e:
+        return flask.jsonify({"error": str(e)}), 500
+
+
+@report_bp.route('/featured-products', methods=['GET'])
+def featured_products():
+    try:
+        db_conn = get_connection()
+        cursor = db_conn.cursor()
+
+        sql = """
+            SELECT TOP 10
+                p.ProductID, p.ProductName, p.Brand, p.Images,
+                MIN(pv.SellingPrice) AS MinPrice,
+                MAX(pv.SellingPrice) AS MaxPrice,
+                SUM(bd.Num) AS TotalSold
+            FROM BillDetail bd
+            INNER JOIN Bill b ON bd.BillID = b.BillID
+            INNER JOIN ProductVariant pv ON bd.ProductVariantID = pv.ProductVariantID
+            INNER JOIN Product p ON pv.ProductID = p.ProductID
+            WHERE b.Status = 'Completed'
+            GROUP BY p.ProductID, p.ProductName, p.Brand, p.Images
             ORDER BY TotalSold DESC
         """
         cursor.execute(sql)

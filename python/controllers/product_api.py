@@ -187,6 +187,11 @@ def get_product_variant(ID):
             return flask.jsonify({"message": "Can't find this product!"}), 404
 
         for v in variants:
+            if v.get('SellingPrice') is not None:
+                v['SellingPrice'] = float(v['SellingPrice'])
+            if v.get('StockQuantity') is not None:
+                v['StockQuantity'] = int(v['StockQuantity'])
+
             info_str = v.get('Information')
             if info_str:
                 try:
@@ -206,16 +211,19 @@ def get_product_variant(ID):
             desc_str = v.get('Description')
             if desc_str:
                 try:
-                    desc_dict = json.loads(desc_str)
-                    if isinstance(desc_dict, dict):
-                        for group_name, group_details in desc_dict.items():
-                            if isinstance(group_details, dict):
-                                for detail_key, detail_value in group_details.items():
-                                    v[detail_key] = detail_value if detail_value is not None else ""
-                            else:
-                                v[group_name] = group_details if group_details is not None else ""
+                    if desc_str.strip().startswith('{'):
+                        desc_dict = json.loads(desc_str)
+                        if isinstance(desc_dict, dict):
+                            for group_name, group_details in desc_dict.items():
+                                if isinstance(group_details, dict):
+                                    for detail_key, detail_value in group_details.items():
+                                        v[detail_key] = detail_value if detail_value is not None else ""
+                                else:
+                                    v[group_name] = group_details if group_details is not None else ""
+                    else:
+                        v['Note'] = desc_str
                 except json.JSONDecodeError:
-                    pass
+                    v['Note'] = desc_str
             if 'Description' in v:
                 del v['Description']
 

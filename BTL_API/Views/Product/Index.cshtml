@@ -11,6 +11,45 @@
         <div class="skeleton" style="width:100px;height:34px;border-radius:99px"></div>
     </div>
 
+    <!-- Advanced Filters -->
+    <div class="filter-bar" id="filterBar">
+        <div class="filter-group">
+            <label class="filter-label"><i class="bi bi-sort-down"></i> Sắp xếp</label>
+            <select class="filter-select" id="filterSort">
+                <option value="default">Mặc định</option>
+                <option value="price-asc">Giá: Thấp → Cao</option>
+                <option value="price-desc">Giá: Cao → Thấp</option>
+                <option value="name-asc">Tên: A → Z</option>
+                <option value="name-desc">Tên: Z → A</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label class="filter-label"><i class="bi bi-tag"></i> Thương hiệu</label>
+            <select class="filter-select" id="filterBrand">
+                <option value="all">Tất cả</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label class="filter-label"><i class="bi bi-cash-stack"></i> Giá</label>
+            <div class="filter-price-range">
+                <input type="number" class="filter-input" id="filterPriceMin" placeholder="Từ" min="0">
+                <span class="filter-separator">–</span>
+                <input type="number" class="filter-input" id="filterPriceMax" placeholder="Đến" min="0">
+            </div>
+        </div>
+        <div class="filter-group">
+            <label class="filter-toggle-label">
+                <input type="checkbox" id="filterInStock">
+                <span class="filter-toggle-text"><i class="bi bi-check-circle"></i> Còn hàng</span>
+            </label>
+        </div>
+        <button class="filter-reset-btn" id="filterResetBtn" title="Xóa bộ lọc">
+            <i class="bi bi-x-lg"></i> Xóa lọc
+        </button>
+    </div>
+
+    <div class="filter-result-count" id="filterResultCount"></div>
+
     <div class="product-grid" id="productGrid"></div>
 </section>
 

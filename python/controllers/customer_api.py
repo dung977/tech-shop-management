@@ -1,3 +1,4 @@
+import pandas as pd
 import flask
 import uuid
 from db_config import get_connection, get_json_results, generate_new_id
@@ -104,3 +105,48 @@ def search_customers():
         return flask.jsonify(get_json_results(cursor)), 200
     except Exception as e:
         return flask.jsonify({'error': str(e)}), 400
+    
+@customer_bp.route('/import', methods=['POST'])
+def import_customer():
+    file = flask.request.files.get('file')
+    if not file or file.filename == '':
+        return flask.jsonify({"message": "File is not selected!"}), 400
+    
+    if not file.filename.endswith(('.xls', '.xlsx')):
+        return flask.jsonify({"message": "Invalid file format. Please upload an Excel file."}), 400
+    
+    cursor = db_conn.cursor()
+    try:
+        df = pd.read_excel(file)        
+        df = df[df['FullName'].notna()]        
+        df = df.where(pd.notnull(df), None)
+        
+        query = """
+                INSERT INTO Customer (CustomerID, FullName, Phone, Email, Address)
+                VALUES (?, ?, ?, ?, ?)
+                """
+        
+        data_to_insert = []
+        for _, row in df.iterrows():
+            customer_id = "CUS_" + str(uuid.uuid4())[:6]
+            data_to_insert.append((
+                customer_id,
+                row.get('FullName'),
+                row.get('Phone'),
+                row.get('Email'),
+                row.get('Address')
+            ))
+            
+        cursor.executemany(query, data_to_insert)        
+        db_conn.commit() 
+        
+        return flask.jsonify({
+            "message": "Success!", 
+            "total_inserted": len(data_to_insert)
+        }), 200
+        
+    except Exception as e:
+        db_conn.rollback() 
+        return flask.jsonify({"error": {str(e)}}), 500
+    finally:
+        cursor.close()
