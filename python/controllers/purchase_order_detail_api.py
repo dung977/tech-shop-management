@@ -1,6 +1,6 @@
 import flask
 import uuid
-from db_config import get_connection, get_json_results
+from db_config import get_connection, get_json_results, generate_new_id
 
 purchase_order_detail_bp = flask.Blueprint('purchase_order_detail_bp', __name__)
 

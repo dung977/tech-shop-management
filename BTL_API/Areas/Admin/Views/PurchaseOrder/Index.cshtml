@@ -15,9 +15,10 @@
             <span class="input-group-text bg-white" style="color: #6c757d;"><i class="fas fa-filter" ></i></span>
             <select class="form-select border-start-0" aria-label="Filter Status" onchange="filterOrders()" id="filterStatus">
                 <option selected>Tất cả trạng thái...</option>
-                <option value="Completed">Đã nhập kho (Completed)</option>
-                <option value="Processing">Đang vận chuyển (Shipping)</option>
-                <option value="Draft">Bản nháp (Draft)</option>
+                <option value="Completed">Đã nhập kho </option>
+                <option value="Processing">Đang vận chuyển</option>
+                <option value="Draft">Bản nháp</option>
+                <option value="Pending Payment">Chờ thanh toán</option>
             </select>
         </div>
     </div>
@@ -30,12 +31,12 @@
             </button>
         </div>
         
-        <button class="btn btn-secondary text-white" title="Nhập Excel" style="background-color: #6c757d; border: none;">
+        @* <button class="btn btn-secondary text-white" title="Nhập Excel" style="background-color: #6c757d; border: none;">
             <i class="fas fa-file-import"></i>
         </button>
         <button class="btn btn-secondary text-white" title="Xuất Excel" style="background-color: #6c757d; border: none;">
             <i class="fas fa-file-export"></i>
-        </button>
+        </button> *@
         
         <button class="btn text-white" title="Tạo phiếu nhập mới" style="background-color: #1b45cf; border: none;" onclick="openAddOrderModal()">
             <i class="fas fa-plus-circle fa-lg"></i> Nhập hàng
@@ -113,7 +114,7 @@
         </div>
     </div>
 </div>
-// hien thi chi tiet don hang
+@* hien thi chi tiet don hang *@
 <div class="modal fade" id="detailOrderModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

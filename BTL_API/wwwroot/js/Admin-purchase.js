@@ -90,12 +90,17 @@ function renderOrderTable() {
         let actionButtons = `
            <button class="btn btn-sm btn-light text-primary me-1" title="Xem chi tiết" onclick="viewOrderDetail('${po.PurchaseOrderID}')">
                 <i class="fas fa-eye"></i>
-           </button>
-            <button class="btn btn-sm btn-light text-primary me-1" title="In phiếu"><i class="fas fa-print"></i></button>
         `;
 
         if (po.Status === "Draft") {
+           
+            actionButtons += `<button class="btn btn-sm btn-light text-success me-1" title="Duyệt & Nhập kho" onclick="confirmOrder('${po.PurchaseOrderID}')"><i class="fas fa-check-circle"></i></button>`;
+           
             actionButtons += `<button class="btn btn-sm btn-light text-danger" title="Xóa nháp"><i class="fas fa-trash"></i></button>`;
+        }
+        // Giả sử sau khi duyệt xong trạng thái là Processing/Pending, có thể thêm nút Thanh toán
+        else if (po.Status === "Processing" || po.Status === "Pending Payment") {
+            actionButtons += `<button class="btn btn-sm btn-light text-success me-1" title="Thanh toán & Hoàn thành" onclick="payOrder('${po.PurchaseOrderID}')"><i class="fas fa-dollar-sign"></i></button>`;
         }
 
         let dateDisplay = 'Đang cập nhật';
@@ -306,4 +311,48 @@ function viewOrderDetail(poId) {
             new bootstrap.Modal(document.getElementById('detailOrderModal')).show();
         })
         .catch(err => alert("Lỗi tải chi tiết: " + err.message));
+}
+// ==========================================
+// DUYỆT PHIẾU VÀ CỘNG HÀNG VÀO KHO
+// ==========================================
+function confirmOrder(poId) {
+    if (confirm(`Bạn có chắc muốn duyệt phiếu ${poId}? Số lượng sẽ được CỘNG THẲNG vào tồn kho.`)) {
+
+        // LƯU Ý: Nếu API cộng kho của ông trong file Python tên khác, hãy sửa lại chữ '/confirm' ở link dưới cho khớp nhé.
+        fetch(`http://127.0.0.1:5000/purchase_orders/${poId}/confirm`, {
+            method: 'POST'
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.message) {
+                    alert(data.message); // Nó sẽ hiện dòng "Confirmed and stock updated successfully!" từ Backend
+                    location.reload();
+                } else {
+                    alert("Lỗi: " + (data.error || "Không thể duyệt phiếu"));
+                }
+            })
+            .catch(err => alert("Lỗi kết nối: " + err.message));
+    }
+}
+
+// ==========================================
+// THANH TOÁN PHIẾU NHẬP
+// ==========================================
+function payOrder(poId) {
+    if (confirm(`Xác nhận đã thanh toán tiền cho nhà cung cấp của phiếu ${poId}?`)) {
+
+        fetch(`http://127.0.0.1:5000/purchase_orders/${poId}/pay`, {
+            method: 'POST'
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.message) {
+                    alert("Đã cập nhật trạng thái thành Completed!");
+                    location.reload();
+                } else {
+                    alert("Lỗi: " + (data.error || "Không thể thanh toán"));
+                }
+            })
+            .catch(err => alert("Lỗi kết nối: " + err.message));
+    }
 }
