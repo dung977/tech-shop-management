@@ -64,3 +64,26 @@ def featured_products():
 
     except Exception as e:
         return flask.jsonify({"error": str(e)}), 500
+
+@report_bp.route('/top-customers', methods=['GET'])
+def top_customers():
+        try:
+            db_conn = get_connection()
+            cursor = db_conn.cursor()
+
+            # Chỉ lấy 3 khách hàng chi tiêu nhiều nhất từ các đơn hàng đã Completed
+            sql = """
+                  SELECT TOP 3 
+                    c.CustomerID, c.FullName \
+                       , c.Phone \
+                       , SUM(b.TotalPrice) as TotalSpent
+                  FROM Bill b
+                           INNER JOIN Customer c ON b.CustomerID = c.CustomerID
+                  WHERE b.Status = 'Completed'
+                  GROUP BY c.CustomerID, c.FullName, c.Phone
+                  ORDER BY TotalSpent DESC \
+                  """
+            cursor.execute(sql)
+            return flask.jsonify(get_json_results(cursor)), 200
+        except Exception as e:
+            return flask.jsonify({"error": str(e)}), 500

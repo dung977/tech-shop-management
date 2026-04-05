@@ -96,7 +96,7 @@ function renderOrderTable() {
            
             actionButtons += `<button class="btn btn-sm btn-light text-success me-1" title="Duyệt & Nhập kho" onclick="confirmOrder('${po.PurchaseOrderID}')"><i class="fas fa-check-circle"></i></button>`;
            
-            actionButtons += `<button class="btn btn-sm btn-light text-danger" title="Xóa nháp"><i class="fas fa-trash"></i></button>`;
+            actionButtons += `<button class="btn btn-sm btn-light text-danger" title="Xóa nháp" onclick="deleteOrder('${po.PurchaseOrderID}')"><i class="fas fa-trash" ></i></button>`;
         }
         // Giả sử sau khi duyệt xong trạng thái là Processing/Pending, có thể thêm nút Thanh toán
         else if (po.Status === "Processing" || po.Status === "Pending Payment") {
@@ -354,5 +354,25 @@ function payOrder(poId) {
                 }
             })
             .catch(err => alert("Lỗi kết nối: " + err.message));
+    }
+}
+// ==========================================
+// XÓA PHIẾU NHẬP 
+// ==========================================
+function deleteOrder(poId) {
+    if (confirm(`Bạn có chắc chắn muốn xóa bản nháp ${poId} không? Hành động này không thể hoàn tác!`)) {
+        fetch(`http://127.0.0.1:5000/purchase_orders/delete/${poId}`, {
+            method: 'DELETE'
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.message === "Success!" || res.ok) {
+                    alert("Đã xóa phiếu nhập thành công!");
+                    location.reload(); // Tải lại trang
+                } else {
+                    alert("Lỗi khi xóa: " + (data.error || data.message));
+                }
+            })
+            .catch(err => alert("Lỗi kết nối đến máy chủ: " + err.message));
     }
 }
