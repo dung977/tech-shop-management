@@ -4,19 +4,82 @@ from db_config import get_connection, get_json_results
 
 bill_detail_bp = flask.Blueprint('bill_detail_bp', __name__)
 
-@bill_detail_bp.route('/getall', methods = ['GET'])
+@bill_detail_bp.route('/getall', methods=['GET'])
 def get_all_bill_details():
     db_conn = get_connection()
     cursor = db_conn.cursor()
-    cursor.execute('select * from BillDetail')
-    return flask.jsonify(get_json_results(cursor)), 200
+    try:
+        # JOIN để lấy thêm Tên sản phẩm, Màu sắc và Hình ảnh
+        query = """
+            SELECT 
+                bd.*, 
+                p.ProductName, 
+                pv.Color, 
+                pv.Image
+            FROM BillDetail bd
+            LEFT JOIN ProductVariant pv ON bd.ProductVariantID = pv.ProductVariantID
+            LEFT JOIN Product p ON pv.ProductID = p.ProductID
+        """
+        cursor.execute(query)
+        details = get_json_results(cursor)
 
-@bill_detail_bp.route('/get/<id>', methods = ['GET'])
+        # Ép kiểu an toàn cho JSON (tránh lỗi nếu Database lưu Decimal)
+        for d in details:
+            if d.get('Price') is not None:
+                d['Price'] = float(d['Price'])
+            if d.get('Num') is not None:
+                d['Num'] = int(d['Num'])
+
+        cursor.close()
+        return flask.jsonify(details), 200
+
+    except Exception as e:
+        if cursor: cursor.close()
+        import traceback
+        print(traceback.format_exc())
+        return flask.jsonify({"error": str(e)}), 500
+
+
+@bill_detail_bp.route('/get/<id>', methods=['GET'])
 def get_bill_detail(id):
     db_conn = get_connection()
     cursor = db_conn.cursor()
-    cursor.execute('select * from BillDetail where BillID = ?', (id,))
-    return flask.jsonify(get_json_results(cursor)), 200
+    try:
+        # JOIN tương tự như getall, nhưng lọc theo BillID
+        query = """
+            SELECT 
+                bd.*, 
+                p.ProductName, 
+                pv.Color, 
+                pv.Image
+            FROM BillDetail bd
+            LEFT JOIN ProductVariant pv ON bd.ProductVariantID = pv.ProductVariantID
+            LEFT JOIN Product p ON pv.ProductID = p.ProductID
+            WHERE bd.BillID = ?
+        """
+        cursor.execute(query, (id,))
+        details = get_json_results(cursor)
+
+        if not details:
+            cursor.close()
+            return flask.jsonify([]), 200
+
+        # Ép kiểu an toàn cho JSON
+        for d in details:
+            if d.get('Price') is not None:
+                d['Price'] = float(d['Price'])
+            if d.get('Num') is not None:
+                d['Num'] = int(d['Num'])
+
+        cursor.close()
+        return flask.jsonify(details), 200
+
+    except Exception as e:
+        if cursor: cursor.close()
+        import traceback
+        print(traceback.format_exc())
+        return flask.jsonify({"error": str(e)}), 500
+
 
 @bill_detail_bp.route('/add', methods=['POST'])
 def add_bill_detail():
@@ -28,8 +91,8 @@ def add_bill_detail():
         variant_id = flask.request.json.get("ProductVariantID")
         num = flask.request.json.get("Num")
 
-        # 1. Lấy giá bán hiện tại của sản phẩm
-        cursor.execute("SELECT SellingPrice FROM ProductVariant WHERE ProductVariantID=?", variant_id)
+        # 1. Lấy giá bán hiện tại của sản phẩm (Đã thêm dấu ngoặc đơn cho variant_id)
+        cursor.execute("SELECT SellingPrice FROM ProductVariant WHERE ProductVariantID=?", (variant_id,))
         price_row = cursor.fetchone()
         if not price_row:
             return flask.jsonify({"mess": "Sản phẩm không tồn tại"}), 404
@@ -43,9 +106,9 @@ def add_bill_detail():
         cursor.execute("UPDATE Bill SET TotalPrice = TotalPrice + (? * ?) WHERE BillID=?", (price, num, bill_id))
 
         db_conn.commit()
-        return flask.jsonify({"mess": "Thêm sản phẩm vào đơn thành công",
-                              "BillDetailID": bd_id}), 200
+        return flask.jsonify({"mess": "Thêm sản phẩm vào đơn thành công", "BillDetailID": bd_id}), 200
     except Exception as e:
         db_conn.rollback()
+        import traceback
+        print(traceback.format_exc())
         return flask.jsonify({"error": str(e)}), 500
-

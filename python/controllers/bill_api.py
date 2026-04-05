@@ -4,11 +4,35 @@ from db_config import get_connection, get_json_results, generate_new_id
 
 bill_bp = flask.Blueprint('bill_bp', __name__)
 @bill_bp.route('/getall', methods = ['GET'])
+@bill_bp.route('/getall', methods=['GET'])
 def get_all_bills():
     db_conn = get_connection()
     cursor = db_conn.cursor()
-    cursor.execute('select * from Bill')
-    return flask.jsonify(get_json_results(cursor)), 200
+    try:
+        query = """
+            SELECT 
+                b.*, 
+                c.FullName AS CustomerName, 
+                e.FullName AS EmployeeName
+            FROM Bill b
+            LEFT JOIN Customer c ON b.CustomerID = c.CustomerID
+            LEFT JOIN Employee e ON b.EmployeeID = e.EmployeeID
+            ORDER BY b.BillID DESC
+        """
+        cursor.execute(query)
+        bills = get_json_results(cursor)
+
+        # Ép kiểu Float cho TotalPrice để tránh lỗi JSON
+        for b in bills:
+            if b.get('TotalPrice') is not None:
+                b['TotalPrice'] = float(b['TotalPrice'])
+
+        cursor.close()
+        return flask.jsonify(bills), 200
+
+    except Exception as e:
+        if cursor: cursor.close()
+        return flask.jsonify({"error": str(e)}), 500
 
 @bill_bp.route('/<id>', methods = ['GET'])
 def get_bill(id):

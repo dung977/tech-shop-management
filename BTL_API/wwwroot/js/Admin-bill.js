@@ -17,20 +17,22 @@ function executeBillSearch() {
     fetch('http://127.0.0.1:5000/bills/getall')
         .then(res => res.json())
         .then(data => {
-            // Lọc theo trạng thái
             if (statusFilter !== "All") {
                 data = data.filter(bill => bill.Status === statusFilter);
             }
-            // Lọc theo từ khóa (Đã fix lỗi thiếu ngoặc)
+
             if (keyword !== "") {
+                const kw = keyword.toLowerCase();
                 data = data.filter(bill =>
-                    (bill.BillID && bill.BillID.toLowerCase().includes(keyword.toLowerCase())) ||
-                    (bill.CustomerID && bill.CustomerID.toLowerCase().includes(keyword.toLowerCase()))
+                    (bill.BillID && bill.BillID.toLowerCase().includes(kw)) ||
+                    (bill.CustomerID && bill.CustomerID.toLowerCase().includes(kw)) ||
+                    (bill.CustomerName && bill.CustomerName.toLowerCase().includes(kw)) || // TÌM THEO TÊN KHÁCH HÀNG
+                    (bill.EmployeeName && bill.EmployeeName.toLowerCase().includes(kw))    // TÌM THEO TÊN NHÂN VIÊN
                 );
             }
-            currentBillData = data.reverse();
+            currentBillData = data; // Không cần .reverse() nữa vì Python đã ORDER BY DESC rồi
             currentBillPage = 1;
-            renderBillTable(); // Gọi đúng tên hàm
+            renderBillTable();
         })
         .catch(err => {
             document.getElementById('billTableBody').innerHTML = `<tr><td colspan="9" class="text-center text-danger py-4"><i>Lỗi khi tải dữ liệu: ${err.message}</i></td></tr>`;
@@ -65,12 +67,20 @@ function renderBillTable() {
 
         let orderDate = bill.DateOrder ? new Date(bill.DateOrder).toLocaleString('vi-VN') : '-';
 
-        // Đã thêm thẻ td cho Checkbox và Ngày tạo đơn để khớp với 9 cột HTML
+        // Tạo giao diện Tên in đậm, Mã in mờ bên dưới
+        let customerDisplay = bill.CustomerName
+            ? `<strong>${bill.CustomerName}</strong><br><small class="text-muted">${bill.CustomerID}</small>`
+            : `<span class="text-muted">Khách vãng lai</span>`;
+
+        let employeeDisplay = bill.EmployeeName
+            ? `<strong>${bill.EmployeeName}</strong><br><small class="text-muted">${bill.EmployeeID}</small>`
+            : (bill.EmployeeID ? bill.EmployeeID : '-');
+
         return `
         <tr>
             <td><strong>${bill.BillID}</strong></td>
-            <td>${bill.CustomerID || '<span class="text-muted">Khách vãng lai</span>'}</td>
-            <td>${bill.EmployeeID || '-'}</td>
+            <td>${customerDisplay}</td>
+            <td>${employeeDisplay}</td>
             <td>${orderDate}</td>
             <td>${bill.PayMethod || 'Tiền mặt'}</td>
             <td class="text-danger fw-bold">${(bill.TotalPrice || 0).toLocaleString()}đ</td>
@@ -99,7 +109,11 @@ function viewBillDetails(billId, totalPrice) {
                     let subTotal = item.Num * item.Price;
                     return `
                     <tr>
-                        <td><strong>${item.ProductVariantID}</strong></td>
+                        <td>
+                           <strong>${item.ProductName || 'Sản phẩm không xác định'}</strong>
+                           <br/>
+                           <small class="text-muted">Mã: ${item.ProductVariantID} | Màu: ${item.Color || 'Mặc định'}</small>
+                        </td>
                         <td class="text-center">${item.Num}</td>
                         <td class="text-end">${item.Price.toLocaleString()}đ</td>
                         <td class="text-end text-primary fw-bold">${subTotal.toLocaleString()}đ</td>

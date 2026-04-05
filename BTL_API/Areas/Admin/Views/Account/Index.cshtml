@@ -22,7 +22,7 @@
         </div>
     </div>
     <div class="col-md-6 d-flex justify-content-end">
-        <button class="btn text-white" title="Thêm tài khoản mới" style="background-color: #1b45cf; border: none;" onclick="alert('Ông nhớ viết thêm hàm /add trong Python nhé!')">
+        <button class="btn text-white" title="Thêm tài khoản mới" style="background-color: #1b45cf; border: none;" onclick="openAddAccountModal()">
             <i class="fas fa-user-plus fa-lg me-1"></i> Thêm tài khoản
         </button>
     </div>
@@ -34,7 +34,6 @@
             <table class="table table-hover align-middle mb-0" width="100%" cellspacing="0">
                 <thead style="background-color: #f4f6f9; color: #0a2551;">
                     <tr>
-                    
                         <th width="15%">Mã TK</th>
                         <th width="25%">Tên đăng nhập (Username)</th>
                         <th width="20%">Vai trò (Role)</th>
@@ -43,13 +42,79 @@
                     </tr>
                 </thead>
                 <tbody id="accountTableBody">
-                    <tr><td colspan="6" class="text-center text-muted py-4">Đang tải dữ liệu...</td></tr>
+                    <tr><td colspan="5" class="text-center text-muted py-4">Đang tải dữ liệu...</td></tr>
                 </tbody>
             </table>
         </div>
     </div>
     <div class="card-footer bg-white py-3">
         <ul class="pagination pagination-acc justify-content-end mb-0"></ul>
+    </div>
+</div>
+
+<div class="modal fade" id="addAccountModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header text-white" style="background-color: #0a2551;">
+                <h5 class="modal-title fw-bold"><i class="fas fa-user-plus me-2"></i>Thêm Tài Khoản Mới</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body p-4">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Họ và tên người dùng <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="addAccFullName" placeholder="Nhập họ tên...">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Tên đăng nhập <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="addAccUsername" placeholder="Nhập username...">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Mật khẩu <span class="text-danger">*</span></label>
+                    <input type="password" class="form-control" id="addAccPassword" placeholder="Nhập mật khẩu...">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Vai trò (Role) <span class="text-danger">*</span></label>
+                    <select class="form-select" id="addAccRole">
+                        <option value="Customer">Customer (Khách hàng)</option>
+                        <option value="Sales">Sales (Bán hàng)</option>
+                        <option value="Inventory">Inventory (Thủ kho)</option>
+                        <option value="Admin">Admin (Quản trị hệ thống)</option>
+                    </select>
+                </div>
+                <small class="text-muted fst-italic">
+                    <i class="fas fa-info-circle me-1"></i>
+                    Hệ thống sẽ tự động tạo hồ sơ nhân viên/khách hàng dựa theo vai trò được chọn.
+                </small>
+            </div>
+
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="submitAddAccount()">Tạo Tài Khoản</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editAccountModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-warning text-dark">
+                <h5 class="modal-title fw-bold"><i class="fas fa-key me-2"></i>Đổi Mật Khẩu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <p>Đang đổi mật khẩu cho tài khoản: <strong id="editAccIdDisplay" class="text-danger"></strong></p>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Mật khẩu mới <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="editAccPassword" placeholder="Nhập mật khẩu mới...">
+                </div>
+            </div>
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-warning fw-bold" onclick="submitEditPassword()">Lưu Thay Đổi</button>
+            </div>
+        </div>
     </div>
 </div>
 
