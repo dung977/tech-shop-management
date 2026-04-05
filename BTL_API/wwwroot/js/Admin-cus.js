@@ -45,7 +45,7 @@ function renderCusTable() {
             <td>${cus.Email || ''}</td>
             <td>${cus.Address || ''}</td>
             <td class="text-center">
-                <button class="btn btn-sm btn-light text-success" title="Lịch sử mua hàng"><i class="fas fa-shopping-bag"></i></button>
+                <button class="btn btn-sm btn-light text-success" title="Lịch sử mua hàng"><i class="fas fa-shopping-bag" onclick="viewCustomerHistory('${cus.CustomerID}', '${cus.FullName}')"></i></button>
                 <button class="btn btn-sm btn-light text-primary" title="Sửa" onclick="openEditCusModal('${cus.CustomerID}')"><i class="fas fa-edit"></i></button>
                 <button class="btn btn-sm btn-light text-danger" title="Xóa" onclick="deleteCustomer('${cus.CustomerID}')"><i class="fas fa-trash"></i></button>
             </td>
@@ -193,4 +193,54 @@ function submitEditCustomer() {
             }
         })
         .catch(error => console.error('Lỗi cập nhật:', error));
+}
+// ==========================================
+// XEM LỊCH SỬ MUA HÀNG CỦA KHÁCH HÀNG
+// ==========================================
+function viewCustomerHistory(customerId, customerName) {
+    // 1. Gắn tên khách hàng lên tiêu đề Modal
+    document.getElementById('historyCustomerName').innerText = customerName;
+    const tbody = document.getElementById('historyTableBody');
+    tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted py-4"><i class="fas fa-spinner fa-spin me-2"></i> Đang tải dữ liệu...</td></tr>`;
+
+    // 2. Mở Modal lên trước cho trải nghiệm mượt mà
+    new bootstrap.Modal(document.getElementById('customerHistoryModal')).show();
+
+    // 3. Gọi API lấy toàn bộ Bill (API này đã join sẵn EmployeeName ở Backend)
+    fetch('http://127.0.0.1:5000/bills/getall')
+        .then(res => res.json())
+        .then(data => {
+            // Lọc ra hóa đơn thuộc về CustomerID này
+            const customerBills = data.filter(b => b.CustomerID === customerId);
+
+            if (customerBills.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted py-5"><i>Khách hàng này chưa phát sinh giao dịch nào.</i></td></tr>`;
+                return;
+            }
+
+            // Vẽ dữ liệu ra bảng
+            tbody.innerHTML = customerBills.map(b => {
+                // Xử lý màu sắc Badge
+                let badgeClass = "bg-primary";
+                if (b.Status === "Completed") badgeClass = "bg-success";
+                else if (b.Status === "Cancelled") badgeClass = "bg-danger";
+                else if (b.Status === "Draft") badgeClass = "bg-secondary";
+
+                // Xử lý format Ngày tháng và Tiền tệ
+                let dateDisplay = b.DateOrder ? new Date(b.DateOrder).toLocaleString('vi-VN') : 'N/A';
+                let totalFormat = (b.TotalPrice || 0).toLocaleString('vi-VN');
+
+                return `
+                <tr>
+                    <td class="ps-3"><strong>${b.BillID}</strong></td>
+                    <td>${dateDisplay}</td>
+                    <td>${b.EmployeeName || b.EmployeeID || 'Vãng lai'}</td>
+                    <td class="text-end text-danger fw-bold">${totalFormat}đ</td>
+                    <td class="text-center pe-3"><span class="badge ${badgeClass} rounded-pill px-3 py-1">${b.Status}</span></td>
+                </tr>`;
+            }).join('');
+        })
+        .catch(err => {
+            tbody.innerHTML = `<tr><td colspan="5" class="text-center text-danger py-4">Lỗi tải lịch sử: ${err.message}</td></tr>`;
+        });
 }

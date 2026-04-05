@@ -101,6 +101,34 @@
 </div>
 @await Html.PartialAsync("_AddCusModal")
 @await Html.PartialAsync("_EditCusModal")
+<div class="modal fade" id="customerHistoryModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title"><i class="fas fa-history me-2"></i>Lịch sử mua hàng: <span id="historyCustomerName" class="fw-bold text-warning"></span></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-0">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light" style="position: sticky; top: 0; z-index: 1;">
+                        <tr>
+                            <th class="ps-3">Mã Đơn</th>
+                            <th>Ngày mua</th>
+                            <th>Thu ngân lập đơn</th>
+                            <th class="text-end">Tổng tiền</th>
+                            <th class="text-center pe-3">Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody">
+                        </tbody>
+                </table>
+            </div>
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
 @section Scripts {
     <script src="~/js/Admin-cus.js" asp-append-version="true"></script>
 }
